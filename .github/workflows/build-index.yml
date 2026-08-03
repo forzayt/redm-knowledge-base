@@ -40,12 +40,12 @@
     html = html.replace(
         "</body>",
         """
-<hr>
-<p>
-Generated automatically • Raw links for AI crawlers • GitHub Pages
-</p>
-</body>
-"""
+        <hr>
+        <p>
+        Generated automatically • Raw links for AI crawlers • GitHub Pages
+        </p>
+        </body>
+        """
     )
 
     Path("index.html").write_text(html, encoding="utf-8")
