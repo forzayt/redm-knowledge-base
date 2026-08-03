@@ -1,21 +1,3 @@
----
-title: RedM AI Knowledge Base
-category: Root
-tags:
-  - redm
-  - knowledge-base
-  - ai-retrieval
-  - lua
-  - natives
-framework: []
-difficulty: beginner
-last_updated: 2026-08-03
-sources:
-  - https://www.lua.org/manual/5.4/
-  - https://www.lua.org/pil/contents.html
-  - https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/
-  - https://redm.nativescripts.com/docs
----
 
 # RedM AI Knowledge Base
 
