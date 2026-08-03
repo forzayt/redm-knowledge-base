@@ -1,53 +1,726 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
-    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
     "https://docs.vorp-core.com/api-reference/inventory",
-    "https://github.com/RedEM-RP",
-    "https://github.com/Rexshack-RedM"
+    "https://github.com/VORPCORE/vorp_inventory",
+    "https://github.com/Rexshack-RedM/rsg-inventory",
+    "https://github.com/RedEM-RP/redemrp_inventory",
+    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib"
   ],
   "groups": [
     {
       "slug": "consumables",
       "name": "Consumables",
-      "description": "Food, drink, and other items consumed for effects.",
+      "description": "Food, drink, and other items consumed for effects (hunger/thirst/stamina).",
       "notes": [
-        "Pairs with hunger, thirst, and status systems"
+        "Pairs with hunger, thirst, and status systems",
+        "Typical stack_max: 10 for food, 5 for strong alcohol"
       ]
     },
     {
       "slug": "materials",
       "name": "Materials",
-      "description": "Crafting inputs and processing goods.",
+      "description": "Crafting inputs and processing goods used by crafting/cooking scripts.",
       "notes": [
-        "Keep recipe references separate from the item list"
+        "Keep recipe references separate from the item list",
+        "Often dropped by hunting, gathering, mining jobs"
       ]
     },
     {
       "slug": "trade-goods",
       "name": "Trade Goods",
-      "description": "Items bought, sold, or delivered through shops and missions.",
+      "description": "Items bought, sold, or delivered through shops, wagon missions, and trade runs.",
       "notes": [
-        "Useful for economy and delivery jobs"
+        "Useful for economy and delivery jobs",
+        "Common in VORP/RSG shops with shop table configs"
       ]
     },
     {
       "slug": "quest-items",
       "name": "Quest Items",
-      "description": "Items meant for one-time mission or progression logic.",
+      "description": "Items meant for one-time mission or progression logic; usually non-droppable, non-tradable.",
       "notes": [
-        "Avoid mixing these with normal inventory utilities"
+        "Avoid mixing these with normal inventory utilities",
+        "Set stack_max=1 and unique=true where supported"
       ]
     },
     {
       "slug": "documents",
       "name": "Documents",
-      "description": "Notes, papers, and other readable items.",
+      "description": "Notes, papers, maps, cards, and other readable/collectible items.",
       "notes": [
-        "Often used for clues, missions, and lore"
+        "Often used for clues, missions, and lore",
+        "Some (cigarette cards, newspaper) are collectible sets"
+      ]
+    },
+    {
+      "slug": "weapon-components",
+      "name": "Weapon Components / Ammo",
+      "description": "Ammunition stacks and weapon attachments/skins used by weapon scripts.",
+      "notes": [
+        "Ammo types match AMMO_* native constants",
+        "Component slugs match weapon_component_hashes in native docs"
+      ]
+    },
+    {
+      "slug": "clothing",
+      "name": "Clothing / Apparel",
+      "description": "Wearable items sold by tailors/barbers or given as quest rewards.",
+      "notes": [
+        "Stored in wardrobe tables vorp_clothing / rsg_clothing",
+        "Each item maps to a drawable+texture or component hash pair"
+      ]
+    },
+    {
+      "slug": "medical",
+      "name": "Medical / Aid",
+      "description": "Revive items, bandages, tonics, snake-oil used by doctor/healer jobs.",
+      "notes": [
+        "Typically consumed on use; triggers revive/heal exports",
+        "Used with ns-lib:UseItem or framework AddUseItem"
       ]
     }
-  ]
+  ],
+  "items": [
+    {
+      "slug": "water",
+      "group_slug": "consumables",
+      "label": "Clean Water",
+      "description": "Refreshing water; restores thirst.",
+      "weight": 0.5,
+      "stack_max": 10,
+      "usable": true,
+      "image": "water.png",
+      "price": 0.25,
+      "effects": { "thirst": 35 },
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "coffee",
+      "group_slug": "consumables",
+      "label": "Hot Coffee",
+      "description": "Brewed coffee; restores thirst and a small stamina boost.",
+      "weight": 0.4,
+      "stack_max": 8,
+      "usable": true,
+      "image": "coffee.png",
+      "price": 0.50,
+      "effects": { "thirst": 30, "stamina": 10 },
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "whiskey",
+      "group_slug": "consumables",
+      "label": "Bottle of Whiskey",
+      "description": "Strong whiskey; restores thirst but slightly impairs aim temporarily.",
+      "weight": 1.0,
+      "stack_max": 5,
+      "usable": true,
+      "image": "whiskey.png",
+      "price": 3.00,
+      "effects": { "thirst": 40, "stress": -15, "drunk": 30 },
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "beef_steak",
+      "group_slug": "consumables",
+      "label": "Cooked Beef Steak",
+      "description": "Well-cooked cow steak; restores a large amount of hunger.",
+      "weight": 0.6,
+      "stack_max": 10,
+      "usable": true,
+      "image": "steak.png",
+      "price": 1.20,
+      "effects": { "hunger": 60 },
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "cannedbeans",
+      "group_slug": "consumables",
+      "label": "Can of Beans",
+      "description": "Preserved pork and beans; standard traveler food.",
+      "weight": 0.7,
+      "stack_max": 12,
+      "usable": true,
+      "image": "cannedbeans.png",
+      "price": 0.60,
+      "effects": { "hunger": 35 },
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "bread",
+      "group_slug": "consumables",
+      "label": "Sourdough Bread",
+      "description": "Fresh loaf from the baker; moderate hunger restoration.",
+      "weight": 0.5,
+      "stack_max": 10,
+      "usable": true,
+      "image": "bread.png",
+      "price": 0.35,
+      "effects": { "hunger": 40 },
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "cigar",
+      "group_slug": "consumables",
+      "label": "Premium Cigar",
+      "description": "Hand-rolled cigar; mild stress relief.",
+      "weight": 0.1,
+      "stack_max": 20,
+      "usable": true,
+      "image": "cigar.png",
+      "price": 1.50,
+      "effects": { "stress": -20 },
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "chewing_tobacco",
+      "group_slug": "consumables",
+      "label": "Chewing Tobacco",
+      "description": "Plug of chewing tobacco; small Dead Eye refill.",
+      "weight": 0.1,
+      "stack_max": 20,
+      "usable": true,
+      "image": "tobacco_chew.png",
+      "price": 0.40,
+      "effects": { "deadeye": 15 },
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "wood_plank",
+      "group_slug": "materials",
+      "label": "Wood Plank",
+      "description": "Planed lumber; used in carpentry and wagon repairs.",
+      "weight": 2.0,
+      "stack_max": 50,
+      "usable": false,
+      "image": "wood.png",
+      "price": 0.20,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "iron_ore",
+      "group_slug": "materials",
+      "label": "Iron Ore",
+      "description": "Raw iron ore mined from veins; smelt into ingots.",
+      "weight": 3.0,
+      "stack_max": 50,
+      "usable": false,
+      "image": "ironore.png",
+      "price": 0.80,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "coal",
+      "group_slug": "materials",
+      "label": "Coal Lump",
+      "description": "Bituminous coal; fuel for forges, furnaces, and locomotives.",
+      "weight": 2.0,
+      "stack_max": 50,
+      "usable": false,
+      "image": "coal.png",
+      "price": 0.30,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "leather",
+      "group_slug": "materials",
+      "label": "Tanned Leather",
+      "description": "Cured animal hide; used by tailors and saddlers.",
+      "weight": 1.0,
+      "stack_max": 40,
+      "usable": false,
+      "image": "leather.png",
+      "price": 1.80,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg", "ns-lib"]
+    },
+    {
+      "slug": "cloth_roll",
+      "group_slug": "materials",
+      "label": "Cloth Roll",
+      "description": "Woven cotton or wool; tailor input for clothing.",
+      "weight": 1.5,
+      "stack_max": 30,
+      "usable": false,
+      "image": "cloth.png",
+      "price": 2.20,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "iron_ingot",
+      "group_slug": "materials",
+      "label": "Iron Ingot",
+      "description": "Smelted iron; refined crafting component for weaponsmiths.",
+      "weight": 4.0,
+      "stack_max": 30,
+      "usable": false,
+      "image": "ingot_iron.png",
+      "price": 2.50,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "nails",
+      "group_slug": "materials",
+      "label": "Iron Nails",
+      "description": "Pack of forged iron nails; carpentry and construction.",
+      "weight": 0.5,
+      "stack_max": 100,
+      "usable": false,
+      "image": "nails.png",
+      "price": 0.15,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "rope",
+      "group_slug": "materials",
+      "label": "Hemp Rope",
+      "description": "Length of twisted hemp; lassoing, tying, ranching jobs.",
+      "weight": 1.0,
+      "stack_max": 10,
+      "usable": true,
+      "image": "rope.png",
+      "price": 0.90,
+      "crafting_input": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "cattle_beef",
+      "group_slug": "trade-goods",
+      "label": "Slaughtered Beef (Side)",
+      "description": "Half a butchered cow; deliver to butcher shops for premium payout.",
+      "weight": 40.0,
+      "stack_max": 1,
+      "usable": false,
+      "image": "beef_side.png",
+      "price": 12.00,
+      "delivery_good": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "salt_pork",
+      "group_slug": "trade-goods",
+      "label": "Barrel of Salt Pork",
+      "description": "Preserved pork; trade run staple between Armadillo and Saint Denis.",
+      "weight": 25.0,
+      "stack_max": 5,
+      "usable": false,
+      "image": "saltpork.png",
+      "price": 8.00,
+      "delivery_good": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "pelt_deer_perfect",
+      "group_slug": "trade-goods",
+      "label": "Perfect Deer Pelt",
+      "description": "Three-star quality deer hide; best price at trapper or general store.",
+      "weight": 3.0,
+      "stack_max": 20,
+      "usable": false,
+      "image": "pelt_deer_perfect.png",
+      "price": 4.50,
+      "hunting_good": true,
+      "quality": 3,
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "fish_salmon",
+      "group_slug": "trade-goods",
+      "label": "Fresh Sockeye Salmon",
+      "description": "Catch from Dakota River; sell to fishmonger or cook at camp.",
+      "weight": 2.5,
+      "stack_max": 10,
+      "usable": false,
+      "image": "salmon.png",
+      "price": 2.20,
+      "fishing_good": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "gold_ore",
+      "group_slug": "trade-goods",
+      "label": "Gold Ore Nugget",
+      "description": "High-value gold-bearing ore; smelt or sell to assayer in Blackwater.",
+      "weight": 3.0,
+      "stack_max": 30,
+      "usable": false,
+      "image": "goldore.png",
+      "price": 15.00,
+      "mining_good": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "silver_ore",
+      "group_slug": "trade-goods",
+      "label": "Silver Ore",
+      "description": "Silver-bearing galena ore; lower tier than gold but steady income.",
+      "weight": 3.0,
+      "stack_max": 40,
+      "usable": false,
+      "image": "silverore.png",
+      "price": 6.00,
+      "mining_good": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "rum_crate",
+      "group_slug": "trade-goods",
+      "label": "Crate of Rum",
+      "description": "Guajan rum; sometimes smuggled without tax stamp.",
+      "weight": 30.0,
+      "stack_max": 3,
+      "usable": false,
+      "image": "rum_crate.png",
+      "price": 18.00,
+      "delivery_good": true,
+      "contraband": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "whiskey_crate",
+      "group_slug": "trade-goods",
+      "label": "Crate of Whiskey",
+      "description": "Case of fine Kentucky bourbon; general stores and saloons buy high.",
+      "weight": 32.0,
+      "stack_max": 3,
+      "usable": false,
+      "image": "whiskey_crate.png",
+      "price": 22.00,
+      "delivery_good": true,
+      "frameworks": ["vorp", "rsg", "ns-lib"]
+    },
+    {
+      "slug": "moonshine_jar",
+      "group_slug": "trade-goods",
+      "label": "Moonshine Jar (White Lightning)",
+      "description": "Unregulated distillate; sell to fence or shine buyers.",
+      "weight": 2.0,
+      "stack_max": 20,
+      "usable": false,
+      "image": "moonshine.png",
+      "price": 5.50,
+      "contraband": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "letter_wanted",
+      "group_slug": "quest-items",
+      "label": "Wanted Letter (Confidential)",
+      "description": "Sealed letter with a bounty-hunting contract; used by sheriff jobs.",
+      "weight": 0.05,
+      "stack_max": 1,
+      "usable": true,
+      "image": "letter_wanted.png",
+      "price": 0,
+      "unique": true,
+      "quest_only": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "treasure_map",
+      "group_slug": "quest-items",
+      "label": "Treasure Map (Le Tresor)",
+      "description": "Hand-drawn map with X marking a buried chest.",
+      "weight": 0.1,
+      "stack_max": 1,
+      "usable": true,
+      "image": "treasuremap.png",
+      "price": 0,
+      "unique": true,
+      "quest_only": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "lockpick",
+      "group_slug": "quest-items",
+      "label": "Lockpick Set",
+      "description": "Tension wrench and picks; open doors, chests, safes (minigame).",
+      "weight": 0.2,
+      "stack_max": 5,
+      "usable": true,
+      "image": "lockpick.png",
+      "price": 4.00,
+      "quest_only": false,
+      "illegal_in_town": true,
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "bounty_poster",
+      "group_slug": "quest-items",
+      "label": "Bounty Poster",
+      "description": "Printed poster describing a wanted outlaw and reward.",
+      "weight": 0.05,
+      "stack_max": 1,
+      "usable": true,
+      "image": "bounty_poster.png",
+      "price": 0,
+      "unique": true,
+      "quest_only": true,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "dynamite_stick",
+      "group_slug": "quest-items",
+      "label": "Stick of Dynamite",
+      "description": "High explosive; blow safes, boulders, bridges. Hazardous.",
+      "weight": 0.6,
+      "stack_max": 10,
+      "usable": true,
+      "image": "dynamite.png",
+      "price": 2.50,
+      "illegal_in_town": true,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "letter_envelope",
+      "group_slug": "documents",
+      "label": "Sealed Envelope",
+      "description": "Blank sealed letter; used by mail delivery jobs.",
+      "weight": 0.05,
+      "stack_max": 20,
+      "usable": true,
+      "image": "envelope.png",
+      "price": 0.10,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "newspaper_sdv_4",
+      "group_slug": "documents",
+      "label": "Saint Denis Times - Vol 1 Issue 4",
+      "description": "Today's newspaper; world news and ads.",
+      "weight": 0.1,
+      "stack_max": 5,
+      "usable": true,
+      "image": "newspaper.png",
+      "price": 0.20,
+      "collectible_set": "newspapers",
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "wanted_poster_300",
+      "group_slug": "documents",
+      "label": "Wanted Poster - $300 Reward",
+      "description": "Sheriff's office reward poster; decorative or quest prop.",
+      "weight": 0.05,
+      "stack_max": 1,
+      "usable": true,
+      "image": "wantedposter_300.png",
+      "price": 0.50,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "stagecoach_route_map",
+      "group_slug": "documents",
+      "label": "Stagecoach Route Map",
+      "description": "Map showing Valentine-Strawberry stage route; deliver to station master.",
+      "weight": 0.1,
+      "stack_max": 1,
+      "usable": true,
+      "image": "route_map.png",
+      "price": 1.00,
+      "quest_only": true,
+      "frameworks": ["vorp", "rsg", "ns-lib"]
+    },
+    {
+      "slug": "cigcard_artists_04",
+      "group_slug": "documents",
+      "label": "Cigarette Card - Famous Artists #4",
+      "description": "Collectible cigarette card; complete the set for reward.",
+      "weight": 0.02,
+      "stack_max": 1,
+      "usable": true,
+      "image": "cigcard_art4.png",
+      "price": 0.25,
+      "collectible_set": "cig_cards_artists",
+      "card_number": 4,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "ammo_revolver",
+      "group_slug": "weapon-components",
+      "label": "Revolver Rounds (.45)",
+      "description": "Standard .45 Colt revolver ammunition.",
+      "weight": 0.04,
+      "stack_max": 200,
+      "usable": true,
+      "image": "ammo_revolver.png",
+      "price": 0.80,
+      "ammo_type": "AMMO_REVOLVER",
+      "rounds_per_unit": 1,
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "ammo_rifle",
+      "group_slug": "weapon-components",
+      "label": "Repeater/Rifle Rounds",
+      "description": "Centerfire rifle rounds for repeaters and bolt-action rifles.",
+      "weight": 0.06,
+      "stack_max": 200,
+      "usable": true,
+      "image": "ammo_rifle.png",
+      "price": 1.20,
+      "ammo_type": "AMMO_RIFLE",
+      "rounds_per_unit": 1,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "ammo_shotgun",
+      "group_slug": "weapon-components",
+      "label": "Shotgun Shells (12ga)",
+      "description": "12-gauge double-aught buckshot shells.",
+      "weight": 0.08,
+      "stack_max": 100,
+      "usable": true,
+      "image": "ammo_shotgun.png",
+      "price": 1.50,
+      "ammo_type": "AMMO_SHOTGUN",
+      "rounds_per_unit": 1,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "ammo_arrow",
+      "group_slug": "weapon-components",
+      "label": "Hunting Arrows",
+      "description": "Hunting arrows for longbow.",
+      "weight": 0.05,
+      "stack_max": 80,
+      "usable": true,
+      "image": "ammo_arrow.png",
+      "price": 0.60,
+      "ammo_type": "AMMO_ARROW",
+      "rounds_per_unit": 1,
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "ammo_dynamite",
+      "group_slug": "weapon-components",
+      "label": "Thrown Dynamite",
+      "description": "Fused dynamite bundle used as thrown weapon.",
+      "weight": 0.5,
+      "stack_max": 20,
+      "usable": true,
+      "image": "ammo_dynamite.png",
+      "price": 2.00,
+      "ammo_type": "AMMO_DYNAMITE",
+      "rounds_per_unit": 1,
+      "frameworks": ["vorp", "rsg", "ns-lib"]
+    },
+
+    {
+      "slug": "hat_texas_low",
+      "group_slug": "clothing",
+      "label": "Texas Low Crown Hat",
+      "description": "Felt cowboy hat with low crown; classic gambler style.",
+      "weight": 0.4,
+      "stack_max": 1,
+      "usable": true,
+      "image": "hat_texas.png",
+      "price": 6.50,
+      "clothing_slot": "hat",
+      "component_hash": "0x...",
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "poncho_serape",
+      "group_slug": "clothing",
+      "label": "Woven Serape Poncho",
+      "description": "Striped Mexican wool poncho; outer layer with warmth stat.",
+      "weight": 1.5,
+      "stack_max": 1,
+      "usable": true,
+      "image": "poncho_serape.png",
+      "price": 14.00,
+      "clothing_slot": "torso",
+      "component_hash": "0x...",
+      "warmth": 20,
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "boots_working",
+      "group_slug": "clothing",
+      "label": "Leather Working Boots",
+      "description": "Stitched leather boots; common cowboy workwear.",
+      "weight": 2.0,
+      "stack_max": 1,
+      "usable": true,
+      "image": "boots_work.png",
+      "price": 8.00,
+      "clothing_slot": "boots",
+      "component_hash": "0x...",
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+
+    {
+      "slug": "bandage",
+      "group_slug": "medical",
+      "label": "Clean Bandage Roll",
+      "description": "Sterile bandage; stops bleeding and restores a small HP amount.",
+      "weight": 0.2,
+      "stack_max": 20,
+      "usable": true,
+      "image": "bandage.png",
+      "price": 1.00,
+      "effects": { "health": 15, "bleed": 0 },
+      "frameworks": ["vorp", "rsg", "redem", "ns-lib"]
+    },
+    {
+      "slug": "medicine_reviver",
+      "group_slug": "medical",
+      "label": "Doctor's Reviver Tonic",
+      "description": "Strong revive tonic; brings a downed player back to conscious state.",
+      "weight": 0.3,
+      "stack_max": 5,
+      "usable": true,
+      "image": "reviver.png",
+      "price": 15.00,
+      "effects": { "health": 30, "stamina": 30, "revive": true },
+      "frameworks": ["vorp", "rsg", "redem"]
+    },
+    {
+      "slug": "snakebite_kit",
+      "group_slug": "medical",
+      "label": "Snakebite Kit",
+      "description": "Tourniquet + suction kit; cures venom/poison debuff.",
+      "weight": 0.3,
+      "stack_max": 5,
+      "usable": true,
+      "image": "snakebite.png",
+      "price": 3.50,
+      "effects": { "poison": 0 },
+      "frameworks": ["vorp", "rsg"]
+    },
+    {
+      "slug": "tincture_painkiller",
+      "group_slug": "medical",
+      "label": "Morphine Painkiller Tincture",
+      "description": "Strong analgesic; blocks pain and suppresses bleed temporarily.",
+      "weight": 0.2,
+      "stack_max": 10,
+      "usable": true,
+      "image": "tincture_pain.png",
+      "price": 6.00,
+      "effects": { "pain_resist": 60, "bleed_resist": 40 },
+      "frameworks": ["vorp", "rsg", "ns-lib"]
+    }
+  ],
+  "shared_item_slug_prefix": {
+    "vorp": "vorp_",
+    "rsg": "rsg_",
+    "redem": "item_",
+    "ns-lib": ""
+  }
 }
