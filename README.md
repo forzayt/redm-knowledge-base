@@ -35,10 +35,14 @@ This repository is organized for AI retrieval first:
 
 ## How to use it
 
-1. Start with `docs/getting-started/overview.md`
-2. Read `ai/optimization-rules.md` and `ai/do-not-do.md`
-3. Use `datasets/sources.json` for source discovery and filtering
-4. Drill into framework, native, and tooling pages as needed
+1. All you have to do is just add this link to your project's context
+ ```markdown
+ https://forzayt.github.io/redm-knowledge-base
+ ```
+2. Start with `docs/getting-started/overview.md`
+3. Read `ai/optimization-rules.md` and `ai/do-not-do.md`
+4. Use `datasets/sources.json` for source discovery and filtering
+5. Drill into framework, native, and tooling pages as needed
 
 ## Design goals
 
