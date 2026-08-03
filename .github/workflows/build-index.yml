@@ -29,7 +29,7 @@ jobs:
             -H "." \
             --dirsfirst \
             --charset utf-8 \
-            -T "Repository Index" \
+            -T "REDM Knowledge Base Index" \
             -I ".git|.github|node_modules|index.html" \
             -o index.html
 
