@@ -38,7 +38,7 @@ jobs:
           import re
 
           OWNER = "forzayt"
-          REPO = "redm-knowledge-base"
+          REPO = "RedM-Knowledge-Base"
           BRANCH = "main"
 
           RAW = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}/"
