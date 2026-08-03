@@ -1,5 +1,5 @@
 
-# RedM AI Knowledge Base
+# RedM Knowledge Base
 
 This repository is organized for AI retrieval first:
 
