@@ -25,6 +25,7 @@ Peds ("pedestrians") are the biped entities covering humans, wildlife, horses, d
 |---|---|
 | [api.md](file:///d:/Playground/redm-knowledge-base/docs/natives/peds/api.md) | Per-native signatures for spawn, health/armour, damage, combat, relationships, clothing/props, speech |
 | [examples.md](file:///d:/Playground/redm-knowledge-base/docs/natives/peds/examples.md) | Recipes: vendor NPC with ambient speech, hostile bandit ambush, docile deer herd, deputy on duty with sheriff hat |
+| [hashes.md](file:///d:/Playground/redm-knowledge-base/docs/natives/peds/hashes.md) | Complete reference (1692 entries) of all ped model hashes — player, horses, animals, civilians, story, gangs, unique NPCs, MP roles |
 
 ## Ped Types (first arg to `CreatePed`)
 
