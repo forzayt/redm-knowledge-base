@@ -1,52 +1,83 @@
-- name: Generate HTML
-  run: |
-    tree \
-      -H "." \
-      --dirsfirst \
-      --charset utf-8 \
-      -T "Repository Index" \
-      -I ".git|.github|node_modules|index.html" \
-      -o index.html
+name: Build Index
 
-    python3 << 'EOF'
-    from pathlib import Path
-    import re
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
-    OWNER = "forzayt"
-    REPO = "redm-knowledge-base"
-    BRANCH = "main"
+permissions:
+  contents: write
 
-    RAW = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}/"
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    html = Path("index.html").read_text("utf-8")
+      - name: Install tree
+        run: sudo apt-get update && sudo apt-get install -y tree
 
-    def replace(match):
-        href = match.group(1)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
-        if href.startswith(("http://", "https://", "#", "?")):
-            return match.group(0)
+      - name: Generate HTML
+        run: |
+          tree \
+            -H "." \
+            --dirsfirst \
+            --charset utf-8 \
+            -T "Repository Index" \
+            -I ".git|.github|node_modules|index.html" \
+            -o index.html
 
-        href = href.lstrip("./")
+          python3 << 'EOF'
+          from pathlib import Path
+          import re
 
-        # Keep folders inside GitHub Pages
-        if href.endswith("/"):
-            return f'href="{href}"'
+          OWNER = "forzayt"
+          REPO = "redm-knowledge-base"
+          BRANCH = "main"
 
-        # Everything else goes to raw.githubusercontent.com
-        return f'href="{RAW}{href}" target="_blank"'
+          RAW = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}/"
 
-    html = re.sub(r'href="([^"]+)"', replace, html)
+          html = Path("index.html").read_text("utf-8")
 
-    html = html.replace(
-        "</body>",
-        """
-        <hr>
-        <p>
-        Generated automatically • Raw links for AI crawlers • GitHub Pages
-        </p>
-        </body>
-        """
-    )
+          def replace(match):
+              href = match.group(1)
 
-    Path("index.html").write_text(html, encoding="utf-8")
-    EOF
+              if href.startswith(("http://", "https://", "#", "?")):
+                  return match.group(0)
+
+              href = href.lstrip("./")
+
+              if href.endswith("/"):
+                  return f'href="{href}"'
+
+              return f'href="{RAW}{href}" target="_blank"'
+
+          html = re.sub(r'href="([^"]+)"', replace, html)
+
+          html = html.replace(
+              "</body>",
+              """
+              <hr>
+              <p>
+              Generated automatically • Raw links for AI crawlers • GitHub Pages
+              </p>
+              </body>
+              """
+          )
+
+          Path("index.html").write_text(html, encoding="utf-8")
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git diff --staged --quiet || git commit -m "chore: auto-update index.html [skip ci]"
+          git push
