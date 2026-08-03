@@ -1,42 +1,570 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
     "https://github.com/nativewrappers/rdr3-natives",
     "https://github.com/alloc8or/rdr3-nativedb-data",
-    "https://github.com/femga/rdr3_discoveries"
+    "https://github.com/femga/rdr3_discoveries",
+    "https://github.com/MoosheTV/redm-external/blob/master/External/Weapon.cs",
+    "https://docs.azael.dev/cfx/script/azael_dc-serverlogs/config/weapons/redm/",
+    "https://www.rdr2mods.com/wiki/pages/list-of-weapon-models-in-rdr-2/"
   ],
   "groups": [
     {
       "slug": "revolvers",
       "name": "Revolvers",
-      "description": "Sidearms with high thematic importance in Red Dead settings."
+      "description": "Sidearms with high thematic importance in Red Dead settings.",
+      "ammo_type": "AMMO_REVOLVER",
+      "weapon_group": "GROUP_PISTOL"
     },
     {
       "slug": "repeaters",
       "name": "Repeaters",
-      "description": "Mid-range firearms used for flexible combat."
+      "description": "Mid-range firearms used for flexible combat.",
+      "ammo_type": "AMMO_REPEATER",
+      "weapon_group": "GROUP_RIFLE"
     },
     {
       "slug": "rifles",
       "name": "Rifles",
-      "description": "Long-range and hunting-oriented weapons."
+      "description": "Long-range and hunting-oriented weapons.",
+      "ammo_type": "AMMO_RIFLE",
+      "weapon_group": "GROUP_RIFLE"
     },
     {
       "slug": "shotguns",
       "name": "Shotguns",
-      "description": "Close-range high-damage weapons."
+      "description": "Close-range high-damage weapons.",
+      "ammo_type": "AMMO_SHOTGUN",
+      "weapon_group": "GROUP_SHOTGUN"
+    },
+    {
+      "slug": "sniper",
+      "name": "Sniper Rifles",
+      "description": "Long-range precision weapons with scopes.",
+      "ammo_type": "AMMO_RIFLE",
+      "weapon_group": "GROUP_SNIPER"
+    },
+    {
+      "slug": "bows",
+      "name": "Bows",
+      "description": "Silent hunting and ranged weapons.",
+      "ammo_type": "AMMO_ARROW",
+      "weapon_group": "GROUP_BOW"
     },
     {
       "slug": "melee",
       "name": "Melee",
-      "description": "Blades, tools, and close-combat weapons."
+      "description": "Blades, tools, and close-combat weapons.",
+      "ammo_type": "NONE",
+      "weapon_group": "GROUP_MELEE"
     },
     {
       "slug": "thrown",
       "name": "Thrown",
-      "description": "Throwables and explosives."
+      "description": "Throwables and explosives.",
+      "ammo_type": "AMMO_THROWN",
+      "weapon_group": "GROUP_THROWN"
+    },
+    {
+      "slug": "animal-attacks",
+      "name": "Animal Attacks",
+      "description": "Animal-based damage sources for damage cause detection.",
+      "ammo_type": "NONE",
+      "weapon_group": "GROUP_ANIMAL"
+    },
+    {
+      "slug": "pistols",
+      "name": "Pistols (Semi-Auto)",
+      "description": "Semi-automatic pistols like Volcanic, Mauser.",
+      "ammo_type": "AMMO_PISTOL",
+      "weapon_group": "GROUP_PISTOL"
     }
+  ],
+  "weapons": [
+    {
+      "group_slug": "revolvers",
+      "name": "Cattleman Revolver",
+      "hash_name": "WEAPON_REVOLVER_CATTLEMAN",
+      "hash_dec": 379729015,
+      "hash_hex": "0x169F59F7",
+      "model": "w_revolver_cattleman01",
+      "ammo_type": "AMMO_REVOLVER",
+      "price": 50,
+      "unlock": "Chapter 2",
+      "tags": ["starter", "classic", "arthur"]
+    },
+    {
+      "group_slug": "revolvers",
+      "name": "Schofield Revolver",
+      "hash_name": "WEAPON_REVOLVER_SCHOFIELD",
+      "hash_dec": 2645141966,
+      "hash_hex": "0x9DA54A4E",
+      "model": "w_revolver_schofield01",
+      "ammo_type": "AMMO_REVOLVER",
+      "price": 84,
+      "unlock": "Chapter 2",
+      "tags": ["premium", "accurate"]
+    },
+    {
+      "group_slug": "revolvers",
+      "name": "Double-Action Revolver",
+      "hash_name": "WEAPON_REVOLVER_DOUBLEACTION",
+      "hash_dec": 1542964385,
+      "hash_hex": "0x5BF8F321",
+      "model": "w_revolver_doubleaction01",
+      "ammo_type": "AMMO_REVOLVER",
+      "price": 65,
+      "unlock": "Chapter 2",
+      "tags": ["fast-fire", "javier"]
+    },
+    {
+      "group_slug": "revolvers",
+      "name": "Lemat Revolver",
+      "hash_name": "WEAPON_REVOLVER_LEMAT",
+      "hash_dec": 3132048567,
+      "hash_hex": "0xBAADD277",
+      "model": "w_revolver_lemat01",
+      "ammo_type": "AMMO_REVOLVER",
+      "price": 317,
+      "unlock": "Epilogue 1",
+      "tags": ["rare", "shotgun-barrel", "high-capacity"]
+    },
+    {
+      "group_slug": "pistols",
+      "name": "Volcanic Pistol",
+      "hash_name": "WEAPON_PISTOL_VOLCANIC",
+      "hash_dec": 3074120561,
+      "hash_hex": "0xB73B7231",
+      "model": "w_pistol_volcanic01",
+      "ammo_type": "AMMO_PISTOL",
+      "price": 150,
+      "unlock": "Chapter 2",
+      "tags": ["semi-auto", "hard-hitting"]
+    },
+    {
+      "group_slug": "pistols",
+      "name": "Mauser Pistol",
+      "hash_name": "WEAPON_PISTOL_MAUSER",
+      "hash_dec": 1626762293,
+      "hash_hex": "0x60F64C35",
+      "model": "w_pistol_mauser01",
+      "ammo_type": "AMMO_PISTOL",
+      "price": 150,
+      "unlock": "Chapter 4",
+      "tags": ["semi-auto", "fast-fire", "premium"]
+    },
+    {
+      "group_slug": "pistols",
+      "name": "M1899 Pistol",
+      "hash_name": "WEAPON_PISTOL_M1899",
+      "hash_dec": 3325203776,
+      "hash_hex": "0xC632D480",
+      "model": "w_pistol_m189901",
+      "ammo_type": "AMMO_PISTOL",
+      "price": 350,
+      "unlock": "Chapter 4",
+      "tags": ["semi-auto", "rare", "high-capacity"]
+    },
+    {
+      "group_slug": "repeaters",
+      "name": "Carbine Repeater",
+      "hash_name": "WEAPON_REPEATER_CARBINE",
+      "hash_dec": 4112041889,
+      "hash_hex": "0xF5175BA1",
+      "model": "w_repeater_carbine01",
+      "ammo_type": "AMMO_REPEATER",
+      "price": 90,
+      "unlock": "Chapter 2",
+      "tags": ["starter", "balanced", "hosea"]
+    },
+    {
+      "group_slug": "repeaters",
+      "name": "Winchester Repeater",
+      "hash_name": "WEAPON_REPEATER_WINCHESTER",
+      "hash_dec": 1945607793,
+      "hash_hex": "0x73F76F31",
+      "model": "w_repeater_winchester01",
+      "ammo_type": "AMMO_REPEATER",
+      "price": 278,
+      "unlock": "Chapter 2",
+      "tags": ["premium", "long-range", "john"]
+    },
+    {
+      "group_slug": "repeaters",
+      "name": "Lancaster Repeater",
+      "hash_name": "WEAPON_REPEATER_LANCASTER",
+      "hash_dec": 1271303663,
+      "hash_hex": "0x4BC38A6F",
+      "model": "w_repeater_lancaster01",
+      "ammo_type": "AMMO_REPEATER",
+      "price": 135,
+      "unlock": "Chapter 2",
+      "tags": ["fast-fire", "versatile"]
+    },
+    {
+      "group_slug": "repeaters",
+      "name": "Evans Repeater",
+      "hash_name": "WEAPON_REPEATER_EVANS",
+      "hash_dec": 2790806577,
+      "hash_hex": "0xA6582C71",
+      "model": "w_repeater_evans01",
+      "ammo_type": "AMMO_REPEATER",
+      "price": 256,
+      "unlock": "Chapter 4",
+      "tags": ["high-capacity", "rare"]
+    },
+    {
+      "group_slug": "repeaters",
+      "name": "Henry Repeater",
+      "hash_name": "WEAPON_REPEATER_HENRY",
+      "hash_dec": 462325523,
+      "hash_hex": "0x1B8EB293",
+      "model": "w_repeater_henry01",
+      "ammo_type": "AMMO_REPEATER",
+      "price": 234,
+      "unlock": "Chapter 3",
+      "tags": ["premium", "accurate"]
+    },
+    {
+      "group_slug": "rifles",
+      "name": "Bolt-Action Rifle",
+      "hash_name": "WEAPON_RIFLE_BOLTACTION",
+      "hash_dec": 3629404161,
+      "hash_hex": "0xD853C801",
+      "model": "w_rifle_boltaction01",
+      "ammo_type": "AMMO_RIFLE",
+      "price": 162,
+      "unlock": "Chapter 3",
+      "tags": ["hunting", "long-range", "bill"]
+    },
+    {
+      "group_slug": "rifles",
+      "name": "Springfield Rifle",
+      "hash_name": "WEAPON_RIFLE_SPRINGFIELD",
+      "hash_dec": 3980689922,
+      "hash_hex": "0xED443E82",
+      "model": "w_rifle_springfield01",
+      "ammo_type": "AMMO_RIFLE",
+      "price": 156,
+      "unlock": "Chapter 2",
+      "tags": ["hunting", "long-range"]
+    },
+    {
+      "group_slug": "rifles",
+      "name": "Varmint Rifle",
+      "hash_name": "WEAPON_RIFLE_VARMINT",
+      "hash_dec": 2577189259,
+      "hash_hex": "0x999CD7CB",
+      "model": "w_rifle_varmint01",
+      "ammo_type": "AMMO_22",
+      "price": 72,
+      "unlock": "Chapter 2",
+      "tags": ["hunting", "small-game", "pelts"]
+    },
+    {
+      "group_slug": "rifles",
+      "name": "Rolling Block Rifle",
+      "hash_name": "WEAPON_SNIPERRIFLE_ROLLINGBLOCK",
+      "hash_dec": 3246622580,
+      "hash_hex": "0xC18368B4",
+      "model": "w_sniperrifle_rollingblock01",
+      "ammo_type": "AMMO_RIFLE",
+      "price": 411,
+      "unlock": "Chapter 3",
+      "tags": ["sniper", "scope", "long-range"]
+    },
+    {
+      "group_slug": "sniper",
+      "name": "Carcano Rifle",
+      "hash_name": "WEAPON_SNIPERRIFLE_CARCANO",
+      "hash_dec": 1878935158,
+      "hash_hex": "0x700000F6",
+      "model": "w_sniperrifle_carcano01",
+      "ammo_type": "AMMO_RIFLE",
+      "price": 456,
+      "unlock": "Chapter 6",
+      "tags": ["sniper", "scope", "rare", "premium"]
+    },
+    {
+      "group_slug": "shotguns",
+      "name": "Double-Barrel Shotgun",
+      "hash_name": "WEAPON_SHOTGUN_DOUBLEBARREL",
+      "hash_dec": 1845168923,
+      "hash_hex": "0x6DFA071B",
+      "model": "w_shotgun_doublebarrel01",
+      "ammo_type": "AMMO_SHOTGUN",
+      "price": 98,
+      "unlock": "Chapter 2",
+      "tags": ["starter", "close-range", "dutch"]
+    },
+    {
+      "group_slug": "shotguns",
+      "name": "Sawed-Off Shotgun",
+      "hash_name": "WEAPON_SHOTGUN_SAWEDOFF",
+      "hash_dec": 3394738807,
+      "hash_hex": "0xCA6B5F77",
+      "model": "w_shotgun_sawedoff01",
+      "ammo_type": "AMMO_SHOTGUN",
+      "price": 111,
+      "unlock": "Chapter 2",
+      "tags": ["short", "charles", "ride-and-shoot"]
+    },
+    {
+      "group_slug": "shotguns",
+      "name": "Pump-Action Shotgun",
+      "hash_name": "WEAPON_SHOTGUN_PUMP",
+      "hash_dec": 1978377098,
+      "hash_hex": "0x75EB010A",
+      "model": "w_shotgun_pump01",
+      "ammo_type": "AMMO_SHOTGUN",
+      "price": 192,
+      "unlock": "Chapter 2",
+      "tags": ["high-capacity", "versatile"]
+    },
+    {
+      "group_slug": "shotguns",
+      "name": "Repeating Shotgun",
+      "hash_name": "WEAPON_SHOTGUN_REPEATING",
+      "hash_dec": 2431676898,
+      "hash_hex": "0x90EEF5E2",
+      "model": "w_shotgun_repeating01",
+      "ammo_type": "AMMO_SHOTGUN",
+      "price": 250,
+      "unlock": "Chapter 3",
+      "tags": ["rare", "semi-auto", "premium"]
+    },
+    {
+      "group_slug": "shotguns",
+      "name": "Semi-Auto Shotgun",
+      "hash_name": "WEAPON_SHOTGUN_SEMIAUTO",
+      "hash_dec": 1918910219,
+      "hash_hex": "0x725FD84B",
+      "model": "w_shotgun_semiauto01",
+      "ammo_type": "AMMO_SHOTGUN",
+      "price": 276,
+      "unlock": "Chapter 4",
+      "tags": ["semi-auto", "premium", "hosea"]
+    },
+    {
+      "group_slug": "bows",
+      "name": "Bow",
+      "hash_name": "WEAPON_BOW",
+      "hash_dec": 2031862060,
+      "hash_hex": "0x791BBD2C",
+      "model": "w_bow01",
+      "ammo_type": "AMMO_ARROW",
+      "price": 58,
+      "unlock": "Chapter 2",
+      "tags": ["hunting", "silent", "charles", "clean-kill"]
+    },
+    {
+      "group_slug": "bows",
+      "name": "Improved Bow",
+      "hash_name": "WEAPON_BOW_IMPROVED",
+      "hash_dec": 1279671863,
+      "hash_hex": "0x4C465577",
+      "model": "w_bow02",
+      "ammo_type": "AMMO_ARROW",
+      "price": 195,
+      "unlock": "Chapter 3",
+      "tags": ["upgraded", "premium", "more-damage"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Hunting Knife",
+      "hash_name": "WEAPON_MELEE_KNIFE",
+      "hash_dec": 3676415116,
+      "hash_hex": "0xDB21AC8C",
+      "model": "w_melee_knife01",
+      "ammo_type": "NONE",
+      "price": 10,
+      "unlock": "Chapter 2",
+      "tags": ["starter", "skinning", "utility"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Machete",
+      "hash_name": "WEAPON_MELEE_MACHETE",
+      "hash_dec": 680856689,
+      "hash_hex": "0x2895B931",
+      "model": "w_melee_machete01",
+      "ammo_type": "NONE",
+      "price": 15,
+      "unlock": "Chapter 3",
+      "tags": ["blade", "agricultural"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Cleaver / Hatchet",
+      "hash_name": "WEAPON_MELEE_HATCHET",
+      "hash_dec": 3099958211,
+      "hash_hex": "0xB8C4AE03",
+      "model": "w_melee_hatchet01",
+      "ammo_type": "NONE",
+      "price": 12,
+      "unlock": "Chapter 2",
+      "tags": ["axe", "wood", "heavy"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Broken Sword",
+      "hash_name": "WEAPON_MELEE_BROKEN_SWORD",
+      "hash_dec": 2460238965,
+      "hash_hex": "0x92A48135",
+      "model": "w_melee_brokensword01",
+      "ammo_type": "NONE",
+      "price": 0,
+      "unlock": "Found",
+      "tags": ["rare", "easter-egg"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Lantern",
+      "hash_name": "WEAPON_MELEE_LANTERN",
+      "hash_dec": 4130231203,
+      "hash_hex": "0xF62FB3A3",
+      "model": "w_melee_lantern01",
+      "ammo_type": "NONE",
+      "price": 8,
+      "unlock": "Chapter 2",
+      "tags": ["light", "utility", "non-combat"]
+    },
+    {
+      "group_slug": "melee",
+      "name": "Torch",
+      "hash_name": "WEAPON_MELEE_TORCH",
+      "hash_dec": 2420706240,
+      "hash_hex": "0x90492300",
+      "model": "w_melee_torch01",
+      "ammo_type": "NONE",
+      "price": 5,
+      "unlock": "Any",
+      "tags": ["light", "fire", "crowd-control"]
+    },
+    {
+      "group_slug": "thrown",
+      "name": "Throwing Knives",
+      "hash_name": "WEAPON_THROWN_THROWING_KNIVES",
+      "hash_dec": 968323490,
+      "hash_hex": "0x39B815A2",
+      "model": "w_thrown_throwingknives01",
+      "ammo_type": "AMMO_THROWING_KNIVES",
+      "price": 25,
+      "unlock": "Chapter 2",
+      "tags": ["silent", "javier", "recoverable"]
+    },
+    {
+      "group_slug": "thrown",
+      "name": "Tomahawk",
+      "hash_name": "WEAPON_THROWN_TOMAHAWK",
+      "hash_dec": 2783446743,
+      "hash_hex": "0xA5E972D7",
+      "model": "w_thrown_tomahawk01",
+      "ammo_type": "AMMO_TOMAHAWK",
+      "price": 30,
+      "unlock": "Chapter 2",
+      "tags": ["native", "heavy", "recoverable"]
+    },
+    {
+      "group_slug": "thrown",
+      "name": "Dynamite",
+      "hash_name": "WEAPON_THROWN_DYNAMITE",
+      "hash_dec": 1758488788,
+      "hash_hex": "0x68D05514",
+      "model": "w_thrown_dynamite01",
+      "ammo_type": "AMMO_DYNAMITE",
+      "price": 15,
+      "unlock": "Chapter 2",
+      "tags": ["explosive", "fuse", "area-damage"]
+    },
+    {
+      "group_slug": "thrown",
+      "name": "Fire Bottle / Molotov",
+      "hash_name": "WEAPON_THROWN_FIREBOTTLE",
+      "hash_dec": 565177482,
+      "hash_hex": "0x21B02F0A",
+      "model": "w_thrown_firebottle01",
+      "ammo_type": "AMMO_FIREBOTTLE",
+      "price": 18,
+      "unlock": "Chapter 2",
+      "tags": ["fire", "aoe", "crowd"]
+    },
+    {
+      "group_slug": "thrown",
+      "name": "Poison Bottle",
+      "hash_name": "WEAPON_THROWN_POISONBOTTLE",
+      "hash_dec": 4118053823,
+      "hash_hex": "0xF57489FF",
+      "model": "w_thrown_poisonbottle01",
+      "ammo_type": "AMMO_POISONBOTTLE",
+      "price": 22,
+      "unlock": "Chapter 3",
+      "tags": ["poison", "rare", "stealth"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Unarmed",
+      "hash_name": "WEAPON_UNARMED",
+      "hash_dec": 2725163619,
+      "hash_hex": "0xA2719263",
+      "model": "NONE",
+      "ammo_type": "NONE",
+      "tags": ["fists", "melee-default"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Alligator",
+      "hash_name": "WEAPON_ANIMAL_ALLIGATOR",
+      "hash_dec": 3049658545,
+      "hash_hex": "0xB5C5D8F1",
+      "tags": ["animal", "predator", "water"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Bear",
+      "hash_name": "WEAPON_ANIMAL_BEAR",
+      "hash_dec": 516031961,
+      "hash_hex": "0x1EC181D9",
+      "tags": ["animal", "predator", "large"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Wolf",
+      "hash_name": "WEAPON_ANIMAL_WOLF",
+      "hash_dec": 37257017,
+      "hash_hex": "0x0238A339",
+      "tags": ["animal", "predator", "pack"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Cougar",
+      "hash_name": "WEAPON_ANIMAL_COUGAR",
+      "hash_dec": 147780946,
+      "hash_hex": "0x08D4BE52",
+      "tags": ["animal", "predator", "stealth"]
+    },
+    {
+      "group_slug": "animal-attacks",
+      "name": "Snake",
+      "hash_name": "WEAPON_ANIMAL_SNAKE",
+      "hash_dec": 3639542807,
+      "hash_hex": "0xD8EFBC17",
+      "tags": ["animal", "venom", "ambush"]
+    }
+  ],
+  "ammo_types": [
+    { "name": "AMMO_REVOLVER", "label": "Revolver Ammo", "stack_max": 100 },
+    { "name": "AMMO_PISTOL", "label": "Pistol Ammo", "stack_max": 120 },
+    { "name": "AMMO_REPEATER", "label": "Repeater Ammo", "stack_max": 120 },
+    { "name": "AMMO_RIFLE", "label": "Rifle Ammo", "stack_max": 120 },
+    { "name": "AMMO_22", "label": ".22 Cal Ammo", "stack_max": 200 },
+    { "name": "AMMO_SHOTGUN", "label": "Shotgun Shells", "stack_max": 80 },
+    { "name": "AMMO_ARROW", "label": "Arrows", "stack_max": 40 },
+    { "name": "AMMO_DYNAMITE", "label": "Dynamite Sticks", "stack_max": 20 },
+    { "name": "AMMO_TOMAHAWK", "label": "Tomahawks", "stack_max": 20 },
+    { "name": "AMMO_THROWING_KNIVES", "label": "Throwing Knives", "stack_max": 20 },
+    { "name": "AMMO_FIREBOTTLE", "label": "Fire Bottles", "stack_max": 15 }
   ]
 }

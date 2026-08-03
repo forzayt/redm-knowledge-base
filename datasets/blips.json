@@ -1,40 +1,112 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
     "https://docs.fivem.net/docs/game-references/blips/",
-    "https://docs.vorp-core.com/api-reference/lib",
-    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib"
+    "https://github.com/PokeSer/redm_blips",
+    "https://forum.cfx.re/t/rdr2-blips-and-hashes/1610117",
+    "https://filmcrz.github.io/blips/",
+    "https://pastebin.com/iHshvCe1"
   ],
   "styles": [
     {
       "slug": "static",
       "name": "Static Blip",
-      "description": "A map marker at a fixed coordinate."
+      "description": "A map marker at a fixed coordinate.",
+      "usage": "BlipAddForCoord + SetBlipSprite for POIs like shops, stables, doctors"
     },
     {
       "slug": "entity",
       "name": "Entity Blip",
-      "description": "A blip attached to a moving ped, horse, or vehicle."
+      "description": "A blip attached to a moving ped, horse, or vehicle.",
+      "usage": "BlipAddForEntity on peds/horses/wagons; SetBlipSprite to style"
     },
     {
       "slug": "radius",
       "name": "Radius Blip",
-      "description": "A circular search or influence zone."
+      "description": "A circular search or influence zone.",
+      "usage": "BlipAddForRadius + SetBlipSprite for bounty zones, hunt areas"
     },
     {
       "slug": "route",
       "name": "Route Blip",
-      "description": "A waypoint or route indicator used for guidance."
+      "description": "A waypoint or route indicator used for guidance.",
+      "usage": "SetBlipRoute + SetBlipRouteColour for mission waypoints"
     }
   ],
   "colors": [
-    { "id": 1, "name": "Red" },
-    { "id": 2, "name": "Green" },
-    { "id": 3, "name": "Blue" },
-    { "id": 5, "name": "Yellow" },
-    { "id": 46, "name": "Gold" },
-    { "id": 55, "name": "Silver" }
-  ]
+    { "id": 1, "name": "Red", "hex": "#E31C23", "usage": "enemies, lawmen, bounty targets, danger" },
+    { "id": 2, "name": "Green", "hex": "#16B816", "usage": "friendly NPCs, safe zones, completed objectives" },
+    { "id": 3, "name": "Blue", "hex": "#1E5CD2", "usage": "player waypoint, mission giver, police aid" },
+    { "id": 4, "name": "White", "hex": "#F0F0F0", "usage": "generic markers, companions, pickups" },
+    { "id": 5, "name": "Yellow", "hex": "#FFD517", "usage": "destination, objective, quest marker, pickup" },
+    { "id": 6, "name": "Pink/Magenta", "hex": "#FF46A0", "usage": "enemy variant, rare event" },
+    { "id": 7, "name": "Cyan", "hex": "#42ECEC", "usage": "water, docks, boats" },
+    { "id": 8, "name": "Orange", "hex": "#FA8925", "usage": "straggler, alternate objective" },
+    { "id": 9, "name": "Purple", "hex": "#8E54FB", "usage": "treasure, rare collectible, mystery" },
+    { "id": 10, "name": "Gray", "hex": "#8C8C8C", "usage": "herd, neutral group, abandoned wagon" },
+    { "id": 11, "name": "Dark Gray", "hex": "#4D4D4D", "usage": "dead, corpse, destroyed" },
+    { "id": 20, "name": "Dark Green", "hex": "#0C7B56", "usage": "posse, gang hideout" },
+    { "id": 46, "name": "Gold", "hex": "#D4AF37", "usage": "legendary, premium, limited time" },
+    { "id": 55, "name": "Silver", "hex": "#C0C0C0", "usage": "uncommon, secondary" }
+  ],
+  "sprites": [
+    { "sprite": 1664425300, "name": "Waypoint / Default Marker", "category": "navigation", "notes": "Generic destination marker used by SetBlipRoute" },
+    { "sprite": -1230993421, "name": "Horse / Mount", "category": "transport", "notes": "Arthur's Horse marker; used for owned mounts and stables" },
+    { "sprite": 631964804, "name": "Wagon / Cart", "category": "transport", "notes": "Arthur's Wagon; used for wagons, coaches, and deliveries" },
+    { "sprite": -399496385, "name": "Train", "category": "transport", "notes": "Train blip for stations and moving trains" },
+    { "sprite": 1861010125, "name": "Post Office / Mail", "category": "service", "notes": "Oficina de Correos; used for post offices and mail services" },
+    { "sprite": -1739686743, "name": "Doctor / Clinic", "category": "service", "notes": "Medical icon; doctors, healers, and veterinary services" },
+    { "sprite": 1879260108, "name": "Saloon / Bar", "category": "service", "notes": "Drink, rest, and social locations" },
+    { "sprite": -2128054417, "name": "Bank", "category": "service", "notes": "Bank vault, money transactions, loans" },
+    { "sprite": 1475879922, "name": "General Store", "category": "shop", "notes": "Tienda general; general goods, supplies, ammo resupply" },
+    { "sprite": -211556852, "name": "Hotel / Motel", "category": "service", "notes": "Rentable rooms, save points, rest areas" },
+    { "sprite": 1322310532, "name": "Sheriff / Law Office", "category": "law", "notes": "Sheriff office, jail, bounty board" },
+    { "sprite": -2090472724, "name": "Barber", "category": "service", "notes": "Haircuts, shaving, grooming services" },
+    { "sprite": 1364029453, "name": "Photography Studio", "category": "service", "notes": "Photo studio, portrait locations" },
+    { "sprite": 1195729388, "name": "Clothing Store / Tailor", "category": "shop", "notes": "Tienda de ropa; outfit changes and purchase" },
+    { "sprite": 1560611276, "name": "Posse Camp", "category": "social", "notes": "Player camp or posse gathering point" },
+    { "sprite": 662885764, "name": "Lawman", "category": "law", "notes": "Red lawman marker; sheriff deputy patrolling" },
+    { "sprite": -1595050198, "name": "Lawman Alt", "category": "law", "notes": "Alternate red law enforcement marker" },
+    { "sprite": -118010418, "name": "Lawman Variant", "category": "law", "notes": "Red alternative lawman marker" },
+    { "sprite": 953018525, "name": "Bounty Target", "category": "bounty", "notes": "Red bounty target; use with BlipAddForEntity on targets" },
+    { "sprite": 455691738, "name": "Bounty Target Alt", "category": "bounty", "notes": "Alternate bounty target marker" },
+    { "sprite": 522464759, "name": "Bounty Hunter", "category": "bounty", "notes": "Bounty hunter NPC or player marker" },
+    { "sprite": -1049390151, "name": "Witness", "category": "law", "notes": "Red witness marker; crime reporting NPCs" },
+    { "sprite": -839369609, "name": "Enemy", "category": "combat", "notes": "Generic red enemy marker" },
+    { "sprite": 831283580, "name": "Enemy Alt", "category": "combat", "notes": "Alternate red enemy marker" },
+    { "sprite": -1749618580, "name": "Companion", "category": "friendly", "notes": "White companion or friendly NPC marker" },
+    { "sprite": -89429847, "name": "Companion Light Gray", "category": "friendly", "notes": "Light gray companion variant" },
+    { "sprite": 422991367, "name": "Companion Dark Gray", "category": "friendly", "notes": "Dark gray companion variant" },
+    { "sprite": 168093330, "name": "White Destination", "category": "navigation", "notes": "White destination or waypoint marker" },
+    { "sprite": -1702907713, "name": "Pink Enemy", "category": "combat", "notes": "Pink/magenta enemy variant" },
+    { "sprite": 1687768444, "name": "Destination (Mine)", "category": "navigation", "notes": "Destination marker with mine-like icon" },
+    { "sprite": -325639900, "name": "Pickup (White)", "category": "loot", "notes": "White pickup marker for lootable items" },
+    { "sprite": 1664425300, "name": "Weapon Pickup", "category": "loot", "notes": "Weapon pickup on ground" },
+    { "sprite": -773443467, "name": "Corpse", "category": "world", "notes": "Dead body, corpse, huntable carcass" },
+    { "sprite": -1594303955, "name": "Animal Carcass", "category": "hunting", "notes": "Hunting kill / skinnable animal carcass" },
+    { "sprite": -700928964, "name": "Gray Herd", "category": "world", "notes": "Gray herd or group of neutral animals" },
+    { "sprite": -214162151, "name": "Yellow Straggler", "category": "world", "notes": "Yellow straggler or stray marker" },
+    { "sprite": -678244495, "name": "Gray Destination", "category": "navigation", "notes": "Gray destination marker" },
+    { "sprite": -1337945352, "name": "White (Unselectable)", "category": "navigation", "notes": "White marker that appears unselectable on map" },
+    { "sprite": 1055493006, "name": "Small Yellow (X) Destination", "category": "navigation", "notes": "Small yellow X destination marker" },
+    { "sprite": 203020899, "name": "Small Yellow (X) Destination Alt", "category": "navigation", "notes": "Alternate small yellow X destination" },
+    { "sprite": 408396114, "name": "Yellow (X) Destination", "category": "navigation", "notes": "Yellow X destination standard size" },
+    { "sprite": -308585968, "name": "Yellow (X) Destination Alt", "category": "navigation", "notes": "Alternate yellow X destination" },
+    { "sprite": 486881925, "name": "White Hat", "category": "role", "notes": "White hat / cowboy icon" },
+    { "sprite": -515518185, "name": "Saddle (Unselectable)", "category": "transport", "notes": "White saddle marker, typically unselectable" },
+    { "sprite": -666422021, "name": "Red ( ) Unselectable", "category": "combat", "notes": "Red bracket marker, unselectable" },
+    { "sprite": -1282792512, "name": "Yellow ( ) Unselectable", "category": "navigation", "notes": "Yellow bracket marker, unselectable" },
+    { "sprite": 227551412, "name": "Yellow ( ) Unselectable Alt", "category": "navigation", "notes": "Alternate yellow bracket marker" },
+    { "sprite": 2033377404, "name": "Yellow ( ) Unselectable Alt 2", "category": "navigation", "notes": "Third yellow bracket marker variant" },
+    { "sprite": 1247852480, "name": "Yellow ( ) Unselectable Alt 3", "category": "navigation", "notes": "Fourth yellow bracket marker variant" },
+    { "sprite": -1559907306, "name": "White ( ) Unselectable", "category": "navigation", "notes": "White bracket marker, unselectable" },
+    { "sprite": 1673015813, "name": "White ( ) Unselectable Alt", "category": "navigation", "notes": "Alternate white bracket marker" },
+    { "sprite": -1622310556, "name": "Horse (Generic)", "category": "transport", "notes": "Generic horse blip" },
+    { "sprite": 1774867085, "name": "Invisible", "category": "utility", "notes": "Invisible blip sprite used for logic-only markers" }
+  ],
+  "example_create": {
+    "lua_code": "local blip = N_0x554d9d53f696d002(1664425300, x, y, z)\nSetBlipSprite(blip, 1475879922, 1)\nSetBlipScale(blip, 0.2)\nCitizen.InvokeNative(0x9CB1A1623062F402, blip, \"General Store\")\nSetBlipCategory(blip, 3)\n"
+  }
 }

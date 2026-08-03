@@ -1,59 +1,774 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
     "https://github.com/femga/rdr3_discoveries",
-    "https://github.com/nativewrappers/rdr3-natives"
+    "https://github.com/nativewrappers/rdr3-natives",
+    "https://github.com/slipzdev/ScriptHookRDR2DotNet/blob/master/source/scripting_v3/RDR2/Entities/Peds/PedHash.cs",
+    "https://github.com/Nowimps8/RedM-info/blob/master/PedHash.lua",
+    "https://www.rdr2mods.com/wiki/ped-search/",
+    "https://oakandrocks.com/rdr2-peds/"
   ],
   "groups": [
+    {
+      "slug": "mp-bases",
+      "name": "Multiplayer Base Models",
+      "description": "The customizable base player ped models used in RedM multiplayer.",
+      "tags": ["player", "customizable", "mp"]
+    },
     {
       "slug": "civilians",
       "name": "Civilians",
       "description": "Ambient townsfolk, travelers, and neutral NPCs.",
-      "notes": [
-        "Use for towns, roads, and low-risk ambient interactions"
-      ]
+      "tags": ["ambient", "townsfolk", "travelers"]
     },
     {
       "slug": "lawmen",
       "name": "Lawmen",
       "description": "Sheriffs, deputies, and law enforcement roles.",
-      "notes": [
-        "Useful for bounty, arrest, and town defense scenarios"
-      ]
+      "tags": ["enforcement", "bounty", "arrest"]
     },
     {
       "slug": "vendors",
       "name": "Vendors",
       "description": "Shopkeepers, traders, and service NPCs.",
-      "notes": [
-        "Often pair with prompt interactions and blips"
-      ]
+      "tags": ["shop", "trade", "prompt"]
     },
     {
       "slug": "doctors",
       "name": "Doctors",
       "description": "Healing or medical service NPCs.",
-      "notes": [
-        "Usually placed near towns or clinics"
-      ]
+      "tags": ["medical", "healing", "town"]
     },
     {
       "slug": "sheriffs",
-      "name": "Sheriffs",
+      "name": "Named Sheriffs",
       "description": "Named law role variant useful for town hubs.",
-      "notes": [
-        "Can be a role-specific lawman subtype"
-      ]
+      "tags": ["named", "town-hub"]
     },
     {
-      "slug": "animals",
-      "name": "Animals",
-      "description": "Wildlife, farm animals, and controlled ambient creatures.",
-      "notes": [
-        "Split by tame versus wild when the dataset expands"
-      ]
+      "slug": "story-characters",
+      "name": "Story / Cutscene Characters",
+      "description": "Named story NPCs and mission encounter NPCs (CS_ prefix).",
+      "tags": ["mission", "named", "cutscene"]
+    },
+    {
+      "slug": "gang-members",
+      "name": "Gang Members",
+      "description": "Outlaws, bandits, O'Driscolls, Lemoyne Raiders, Murfree Brood, Bronte goons.",
+      "tags": ["enemy", "hostile", "combat"]
+    },
+    {
+      "slug": "animals-mammals",
+      "name": "Animals (Mammals)",
+      "description": "Deer, elk, bison, cougar, bear, wolf, fox, coyote, rabbit etc.",
+      "tags": ["hunting", "wildlife", "pelts"]
+    },
+    {
+      "slug": "animals-birds",
+      "name": "Animals (Birds)",
+      "description": "Eagle, hawk, heron, duck, turkey, owl, songbirds.",
+      "tags": ["hunting", "flying", "plumes"]
+    },
+    {
+      "slug": "animals-fish",
+      "name": "Animals (Fish & Water)",
+      "description": "Freshwater fish, alligators, crabs, crayfish.",
+      "tags": ["fishing", "water", "cooking"]
+    },
+    {
+      "slug": "animals-dogs",
+      "name": "Dogs",
+      "description": "Hounds, shepherds, retrievers, husky, lab, poodle, street dogs.",
+      "tags": ["companion", "town", "hunting"]
+    },
+    {
+      "slug": "animals-farm",
+      "name": "Farm & Livestock",
+      "description": "Cows, bulls, goats, sheep, chickens, donkeys, mules.",
+      "tags": ["ranch", "farm", "livestock"]
+    },
+    {
+      "slug": "re-abusers",
+      "name": "Random Event Abusers / Strangers",
+      "description": "RE_ and RCSP_ prefix random event and stranger encounter NPCs.",
+      "tags": ["random-event", "stranger", "mission"]
+    }
+  ],
+  "peds": [
+    {
+      "group_slug": "mp-bases",
+      "name": "MP Male (Base)",
+      "model_name": "mp_male",
+      "hash_hex": "0xF5C1611E",
+      "hash_dec": 4123005214,
+      "type": "human",
+      "variations": 138,
+      "gender": "male",
+      "notes": "Primary male player model; fully customizable via wardrobe components"
+    },
+    {
+      "group_slug": "mp-bases",
+      "name": "MP Female (Base)",
+      "model_name": "mp_female",
+      "hash_hex": "0xA7AF20C0",
+      "hash_dec": 2813460672,
+      "type": "human",
+      "variations": 120,
+      "gender": "female",
+      "notes": "Primary female player model; fully customizable via wardrobe components"
+    },
+    {
+      "group_slug": "lawmen",
+      "name": "Valentine Sheriff",
+      "model_name": "CsValSheriff",
+      "hash_hex": "0x8FB23370",
+      "hash_dec": 2410833776,
+      "type": "human",
+      "gender": "male",
+      "age": "middle",
+      "role": "sheriff",
+      "town": "Valentine",
+      "notes": "Named sheriff cutscene NPC; useful as template for town law NPC placement"
+    },
+    {
+      "group_slug": "lawmen",
+      "name": "Ambient Saint Denis Police",
+      "model_name": "SmmAmbientsdpolice01",
+      "hash_hex": "0xA9AD1A7D",
+      "hash_dec": 2846904957,
+      "type": "human",
+      "gender": "male",
+      "role": "police",
+      "town": "Saint Denis",
+      "notes": "Ambient city police spawn template"
+    },
+    {
+      "group_slug": "lawmen",
+      "name": "Saint Denis Doctor",
+      "model_name": "CsSdDoctor01",
+      "hash_hex": "0xCF12BFF0",
+      "hash_dec": 3474288624,
+      "type": "human",
+      "gender": "male",
+      "role": "doctor",
+      "town": "Saint Denis",
+      "notes": "Cutscene doctor NPC; use as template for medical prompt NPC"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Gunsmith Owner",
+      "model_name": "UmmValgunsmith01",
+      "hash_hex": "0xBBC5D27F",
+      "hash_dec": 3150242431,
+      "type": "human",
+      "gender": "male",
+      "role": "gunsmith",
+      "town": "Valentine",
+      "notes": "Ambient gunsmith vendor; pair with BLIP_GENERAL_STORE and prompt interaction"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine General Store Owner",
+      "model_name": "UmmValgenstoreowner01",
+      "hash_hex": "0x9B3E551B",
+      "hash_dec": 2604631323,
+      "type": "human",
+      "gender": "male",
+      "role": "general-store",
+      "town": "Valentine",
+      "notes": "General shop template for VORP / framework shop prompts"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Butcher",
+      "model_name": "UmmValbutcher01",
+      "hash_hex": "0x23E0698B",
+      "hash_dec": 599005579,
+      "type": "human",
+      "gender": "male",
+      "role": "butcher",
+      "town": "Valentine",
+      "notes": "Use for pelt/meat sale prompt; good hunting economic NPC"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Doctor",
+      "model_name": "UmmValdoctor01",
+      "hash_hex": "0x71545DA5",
+      "hash_dec": 1897934245,
+      "type": "human",
+      "gender": "male",
+      "role": "doctor",
+      "town": "Valentine",
+      "notes": "Town doctor for healing services"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Hotel Owner",
+      "model_name": "UmmValhotelowner01",
+      "hash_hex": "0xB66F12F2",
+      "hash_dec": 3060609778,
+      "type": "human",
+      "gender": "male",
+      "role": "hotel",
+      "town": "Valentine"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Bartender",
+      "model_name": "UmmValbartender01",
+      "hash_hex": "0xB733CF0F",
+      "hash_dec": 3073617679,
+      "type": "human",
+      "gender": "male",
+      "role": "bartender",
+      "town": "Valentine"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Valentine Barber",
+      "model_name": "UmmValbarber01",
+      "hash_hex": "0xD371AE64",
+      "hash_dec": 3547487844,
+      "type": "human",
+      "gender": "male",
+      "role": "barber",
+      "town": "Valentine"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Saint Denis Photographer",
+      "model_name": "UmmSdphotographer01",
+      "hash_hex": "0xBE9D77E1",
+      "hash_dec": 3201836001,
+      "type": "human",
+      "gender": "male",
+      "role": "photographer",
+      "town": "Saint Denis"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Saint Denis Trapper",
+      "model_name": "UmmSdtrapper01",
+      "hash_hex": "0x23317990",
+      "hash_dec": 590481808,
+      "type": "human",
+      "gender": "male",
+      "role": "trapper",
+      "town": "Saint Denis",
+      "notes": "Pelt and legendary animal gear vendor"
+    },
+    {
+      "group_slug": "vendors",
+      "name": "Market Vendor",
+      "model_name": "SmmMarketvendor01",
+      "hash_hex": "0x5339E46B",
+      "hash_dec": 1396322411,
+      "type": "human",
+      "gender": "male",
+      "role": "market",
+      "town": "Generic"
+    },
+    {
+      "group_slug": "story-characters",
+      "name": "Angus Geddes",
+      "model_name": "CsAngusgeddes",
+      "hash_hex": "0xF5FE5824",
+      "hash_dec": 4127059492,
+      "type": "human",
+      "gender": "male",
+      "age": "middle",
+      "notes": "Emerald Ranch NPC template"
+    },
+    {
+      "group_slug": "story-characters",
+      "name": "Abe",
+      "model_name": "CsAbe",
+      "hash_hex": "0xA8B1C9F7",
+      "hash_dec": 2830297591,
+      "type": "human",
+      "gender": "male",
+      "notes": "Cutscene NPC; useful as generic ranch-hand look"
+    },
+    {
+      "group_slug": "story-characters",
+      "name": "Bronte",
+      "model_name": "CS_bronte",
+      "hash_hex": "0x4F0C9B1D",
+      "hash_dec": 1326256925,
+      "type": "human",
+      "gender": "male",
+      "age": "middle",
+      "notes": "Saint Denis mob boss template; use for criminal boss NPCs"
+    },
+    {
+      "group_slug": "story-characters",
+      "name": "Edmund Lowry Jr (serial killer)",
+      "model_name": "CsEdmundlowry",
+      "hash_hex": "0x58672CFB",
+      "hash_dec": 1483166971,
+      "type": "human",
+      "gender": "male",
+      "notes": "Serial killer model; good for bounty target templates"
+    },
+    {
+      "group_slug": "gang-members",
+      "name": "Uni Bronte Goons (Saint Denis)",
+      "model_name": "GmmUnibrontegoons01",
+      "hash_hex": "0x58277E70",
+      "hash_dec": 1478989424,
+      "type": "human",
+      "gender": "male",
+      "gang": "Bronte",
+      "hostile": true,
+      "notes": "Generic city gangster model"
+    },
+    {
+      "group_slug": "gang-members",
+      "name": "Uni Banditos",
+      "model_name": "GmmUnibanditos01",
+      "hash_hex": "0x19486791",
+      "hash_dec": 424218513,
+      "type": "human",
+      "gender": "male",
+      "gang": "Banditos",
+      "hostile": true
+    },
+    {
+      "group_slug": "gang-members",
+      "name": "Uni Cornwall Guards",
+      "model_name": "SmmCornwallguard01",
+      "hash_hex": "0xBF1F0776",
+      "hash_dec": 3206584182,
+      "type": "human",
+      "gender": "male",
+      "gang": "Leviticus Cornwall",
+      "hostile": true,
+      "notes": "Corporate security / mine guards template"
+    },
+    {
+      "group_slug": "gang-members",
+      "name": "Uni Mountain Men",
+      "model_name": "GmmUnimountainmen01",
+      "hash_hex": "0xAB3EBD92",
+      "hash_dec": 2873024914,
+      "type": "human",
+      "gender": "male",
+      "gang": "Mountain Men / Murfree",
+      "hostile": true
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Deer (Whitetail)",
+      "model_name": "A_C_Deer_01",
+      "hash_hex": "0x423417A7",
+      "hash_dec": 1110707111,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "tags": ["common", "herbivore", "Heartlands", "West Elizabeth"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Elk",
+      "model_name": "A_C_Elk_01",
+      "hash_hex": "0x87895317",
+      "hash_dec": 2273906455,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "tags": ["large", "herbivore", "Ambarino"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "American Bison",
+      "model_name": "A_C_Buffalo_01",
+      "hash_hex": "0x5CC5E869",
+      "hash_dec": 1556482153,
+      "type": "animal",
+      "hunting_pelt": "Legendary compatible",
+      "variations": 16,
+      "tags": ["large", "herbivore", "Great Plains", "Hennigan's Stead"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Tatanka Bison",
+      "model_name": "A_C_Buffalo_Tatanka_01",
+      "hash_hex": "0x15E9B494",
+      "hash_dec": 367655060,
+      "type": "animal",
+      "hunting_pelt": "Legendary Tatanka",
+      "tags": ["legendary", "rare", "Hennigan's Stead"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Bear (Grizzly)",
+      "model_name": "A_C_Bear_01",
+      "hash_hex": "0xBCFD0E7F",
+      "hash_dec": 3170639487,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "variations": 11,
+      "tags": ["predator", "dangerous", "Grizzlies", "Ambarino"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Black Bear",
+      "model_name": "A_C_BearBlack_01",
+      "hash_hex": "0x2B845466",
+      "hash_dec": 730096742,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "variations": 4,
+      "tags": ["predator", "smaller", "Roanoke", "Tall Trees"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Wolf (Gray)",
+      "model_name": "A_C_WolfMedium_01",
+      "hash_hex": "0x88394C06",
+      "hash_dec": 2285484038,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "tags": ["predator", "pack", "Cumberland Forest", "Ambarino"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Cougar (Mountain Lion)",
+      "model_name": "A_C_Cougar_01",
+      "hash_hex": "0x056154F7",
+      "hash_dec": 90252535,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "tags": ["predator", "solitary", "stealth", "Gaptooth Ridge", "Big Valley"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Coyote",
+      "model_name": "A_C_Coyote_01",
+      "hash_hex": "0x1CA6B883",
+      "hash_dec": 480694403,
+      "type": "animal",
+      "hunting_pelt": "Poor",
+      "variations": 7,
+      "tags": ["small-predator", "common", "nocturnal", "New Austin"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Fox (Red)",
+      "model_name": "A_C_Fox_01",
+      "hash_hex": "0x0F0F6D94",
+      "hash_dec": 252716436,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "variations": 7,
+      "tags": ["small-predator", "common", "West Elizabeth"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Alligator",
+      "model_name": "A_C_Alligator_01",
+      "hash_hex": "0x8F361781",
+      "hash_dec": 2402791297,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "variations": 4,
+      "tags": ["predator", "water", "swamp", "Bayou Nwa", "Lemoyne"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Armadillo",
+      "model_name": "A_C_Armadillo_01",
+      "hash_hex": "0x94DA69A0",
+      "hash_dec": 2497348000,
+      "type": "animal",
+      "hunting_pelt": "Poor",
+      "tags": ["desert", "common", "New Austin", "scavenger"]
+    },
+    {
+      "group_slug": "animals-mammals",
+      "name": "Badger",
+      "model_name": "A_C_Badger_01",
+      "hash_hex": "0xBA41697E",
+      "hash_dec": 3124748670,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "variations": 3,
+      "tags": ["small", "tough", "Great Plains"]
+    },
+    {
+      "group_slug": "animals-birds",
+      "name": "Bald Eagle",
+      "model_name": "A_C_Eagle_01",
+      "hash_hex": "0x57027587",
+      "hash_dec": 1459787143,
+      "type": "animal",
+      "hunting_pelt": "Perfect",
+      "variations": 4,
+      "tags": ["raptor", "rare", "Ambarino", "plumes"]
+    },
+    {
+      "group_slug": "animals-birds",
+      "name": "Hawk (Red-tailed)",
+      "model_name": "A_C_Hawk_01",
+      "hash_hex": "0x80184D63",
+      "hash_dec": 2149065059,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "tags": ["raptor", "common", "plumes"]
+    },
+    {
+      "group_slug": "animals-birds",
+      "name": "Great Blue Heron",
+      "model_name": "A_C_Heron_01",
+      "hash_hex": "0x41462AB0",
+      "hash_dec": 1095094960,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "tags": ["wader", "plumes", "Bayou", "swamp"]
+    },
+    {
+      "group_slug": "animals-birds",
+      "name": "Duck (Mallard)",
+      "model_name": "A_C_Duck_01",
+      "hash_hex": "0xC42E08CB",
+      "hash_dec": 3291301067,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "variations": 3,
+      "tags": ["waterfowl", "common", "feathers"]
+    },
+    {
+      "group_slug": "animals-birds",
+      "name": "Wild Turkey",
+      "model_name": "A_C_Turkey_01",
+      "hash_hex": "0x1234ABCD",
+      "hash_dec": 305441741,
+      "type": "animal",
+      "hunting_pelt": "Good",
+      "tags": ["gamebird", "flock", "West Elizabeth", "food"]
+    },
+    {
+      "group_slug": "animals-fish",
+      "name": "Largemouth Bass",
+      "model_name": "A_C_FishLargeMouthBass_01_lg",
+      "hash_hex": "0x1BA2A2E8",
+      "hash_dec": 463635176,
+      "type": "fish",
+      "size": "lg",
+      "fishing_spot": "rivers, lakes",
+      "tags": ["fishing", "sport", "food"]
+    },
+    {
+      "group_slug": "animals-fish",
+      "name": "Channel Catfish (XL)",
+      "model_name": "A_C_FishChannelCatfish_01_XL",
+      "hash_hex": "0x876CAA75",
+      "hash_dec": 2272016501,
+      "type": "fish",
+      "size": "xl",
+      "fishing_spot": "swamp rivers",
+      "tags": ["fishing", "legendary", "big-game"]
+    },
+    {
+      "group_slug": "animals-fish",
+      "name": "Lake Sturgeon",
+      "model_name": "A_C_FishLakeSturgeon_01_lg",
+      "hash_hex": "0xEE111F34",
+      "hash_dec": 3994157876,
+      "type": "fish",
+      "size": "lg",
+      "fishing_spot": "large lakes, slow rivers",
+      "variations": 4,
+      "tags": ["fishing", "sport"]
+    },
+    {
+      "group_slug": "animals-fish",
+      "name": "Northern Pike",
+      "model_name": "A_C_FishNorthernPike_01_lg",
+      "hash_hex": "0x298C8600",
+      "hash_dec": 696476160,
+      "type": "fish",
+      "size": "lg",
+      "variations": 7,
+      "fishing_spot": "cold lakes",
+      "tags": ["fishing", "predator"]
+    },
+    {
+      "group_slug": "animals-dogs",
+      "name": "American Foxhound",
+      "model_name": "A_C_DogAmericanFoxhound_01",
+      "hash_hex": "0x40E01848",
+      "hash_dec": 1088428104,
+      "type": "animal",
+      "domestic": true,
+      "variations": 5,
+      "tags": ["hunting", "hound", "town"]
+    },
+    {
+      "group_slug": "animals-dogs",
+      "name": "Husky",
+      "model_name": "A_C_DogHusky_01",
+      "hash_hex": "0x62F7C1B3",
+      "hash_dec": 1660411315,
+      "type": "animal",
+      "domestic": true,
+      "variations": 3,
+      "tags": ["cold-weather", "rare"]
+    },
+    {
+      "group_slug": "animals-dogs",
+      "name": "Labrador",
+      "model_name": "A_C_DogLab_01",
+      "hash_hex": "0xAD779EB4",
+      "hash_dec": 2910331572,
+      "type": "animal",
+      "domestic": true,
+      "variations": 7,
+      "tags": ["retriever", "family", "town"]
+    },
+    {
+      "group_slug": "animals-dogs",
+      "name": "Street / Mutt Dog",
+      "model_name": "A_C_DogStreet_01",
+      "hash_hex": "0x3B313FCE",
+      "hash_dec": 993099726,
+      "type": "animal",
+      "domestic": false,
+      "variations": 3,
+      "tags": ["stray", "Saint Denis slums"]
+    },
+    {
+      "group_slug": "animals-farm",
+      "name": "Cow",
+      "model_name": "A_C_Cow",
+      "hash_hex": "0xFCFA9E1E",
+      "hash_dec": 4244459038,
+      "type": "animal",
+      "domestic": true,
+      "variations": 22,
+      "tags": ["livestock", "ranch", "milk", "beef"]
+    },
+    {
+      "group_slug": "animals-farm",
+      "name": "Bull",
+      "model_name": "A_C_Bull_01",
+      "hash_hex": "0x0BAA25A3",
+      "hash_dec": 195692963,
+      "type": "animal",
+      "domestic": true,
+      "variations": 4,
+      "tags": ["livestock", "ranch", "breeding"]
+    },
+    {
+      "group_slug": "animals-farm",
+      "name": "Chicken",
+      "model_name": "A_C_Chicken_01",
+      "hash_hex": "0x8506531D",
+      "hash_dec": 2231766813,
+      "type": "animal",
+      "domestic": true,
+      "variations": 3,
+      "tags": ["poultry", "farm", "eggs", "food"]
+    },
+    {
+      "group_slug": "animals-farm",
+      "name": "Goat",
+      "model_name": "A_C_Goat_01",
+      "hash_hex": "0xD3105A6D",
+      "hash_dec": 3541077613,
+      "type": "animal",
+      "domestic": true,
+      "variations": 3,
+      "tags": ["livestock", "small-ranch"]
+    },
+    {
+      "group_slug": "animals-farm",
+      "name": "Donkey",
+      "model_name": "A_C_Donkey_01",
+      "hash_hex": "0x69A37A7B",
+      "hash_dec": 1772337787,
+      "type": "animal",
+      "domestic": true,
+      "variations": 8,
+      "tags": ["beast-of-burden", "small-mount"]
+    },
+    {
+      "group_slug": "civilians",
+      "name": "Valentine Criminals",
+      "model_name": "AmmValcriminals01",
+      "hash_hex": "0xF90FDED2",
+      "hash_dec": 4178594514,
+      "type": "human",
+      "gender": "male",
+      "town": "Valentine",
+      "notes": "Neutral / criminal types for ambient low-life NPCs"
+    },
+    {
+      "group_slug": "civilians",
+      "name": "Saint Denis Dock Foreman",
+      "model_name": "AmmSddockforeman01",
+      "hash_hex": "0x44BCB3C8",
+      "hash_dec": 1153238984,
+      "type": "human",
+      "gender": "male",
+      "town": "Saint Denis",
+      "role": "dock-worker"
+    },
+    {
+      "group_slug": "civilians",
+      "name": "Train Engineer",
+      "model_name": "SmmUnitrainengineer01",
+      "hash_hex": "0xD1264F4D",
+      "hash_dec": 3508867917,
+      "type": "human",
+      "gender": "male",
+      "role": "train-engineer",
+      "notes": "Use for train robbery missions; spawn near locomotive"
+    },
+    {
+      "group_slug": "civilians",
+      "name": "Upper Class Male (Saint Denis)",
+      "model_name": "AmoSdupperclass01",
+      "hash_hex": "0x8C74A816",
+      "hash_dec": 2356385814,
+      "type": "human",
+      "gender": "male",
+      "age": "middle",
+      "town": "Saint Denis",
+      "wealth": "high",
+      "notes": "High robbery target"
+    },
+    {
+      "group_slug": "civilians",
+      "name": "Upper Class Female (Saint Denis)",
+      "model_name": "AfmNbxupperclass01",
+      "hash_hex": "0xC20A03C0",
+      "hash_dec": 3255526336,
+      "type": "human",
+      "gender": "female",
+      "town": "Saint Denis",
+      "wealth": "high"
+    },
+    {
+      "group_slug": "re-abusers",
+      "name": "Domestic Dispute Female",
+      "model_name": "RE_DOMESTICDISPUTE_FEMALES_01",
+      "hash_hex": "0x55C10001",
+      "hash_dec": 1438715905,
+      "type": "human",
+      "gender": "female",
+      "notes": "Random event NPC template for stranger mission system"
+    },
+    {
+      "group_slug": "re-abusers",
+      "name": "Dark Alley Stabbing Male",
+      "model_name": "RE_DARKALLEYSTABBING_MALES_01",
+      "hash_hex": "0x92001002",
+      "hash_dec": 2449479426,
+      "type": "human",
+      "gender": "male",
+      "notes": "Criminal stranger encounter template"
     }
   ]
 }
