@@ -1,0 +1,46 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "frameworks": [
+    {
+      "name": "VORP Core",
+      "slug": "vorp",
+      "site": "https://docs.vorp-core.com/",
+      "notes": [
+        "Open source RedM framework",
+        "Has a modular lib API",
+        "Supports framework-specific and shared helpers"
+      ]
+    },
+    {
+      "name": "RSG Core",
+      "slug": "rsg",
+      "site": "https://www.rsg-core.com/",
+      "notes": [
+        "RedM RP framework",
+        "GitHub org has many related repositories",
+        "Useful for cross-framework abstraction docs"
+      ]
+    },
+    {
+      "name": "RedEM:RP",
+      "slug": "redem",
+      "site": "https://github.com/RedEM-RP",
+      "notes": [
+        "Rebooted 2023 ecosystem",
+        "Public framework org and related modules",
+        "Important for compatibility docs"
+      ]
+    },
+    {
+      "name": "Native Scripts ns-lib",
+      "slug": "ns-lib",
+      "site": "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+      "notes": [
+        "Cross-framework abstraction layer",
+        "Supports multiple inventories and SQL adapters",
+        "Useful as a compatibility baseline"
+      ]
+    }
+  ]
+}

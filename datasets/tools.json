@@ -1,0 +1,33 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "tools": [
+    {
+      "name": "OpenIV",
+      "url": "https://openiv.com/",
+      "category": "asset-browser",
+      "notes": [
+        "Browse and inspect Rockstar assets",
+        "Useful before packaging streamed content"
+      ]
+    },
+    {
+      "name": "Lenny's Mod Loader RDR",
+      "url": "https://www.rdr2mods.com/downloads/rdr2/tools/76-lennys-mod-loader-rdr/",
+      "category": "mod-loader",
+      "notes": [
+        "Common mod loading tool in the Red Dead ecosystem",
+        "Relevant for asset replacement workflows"
+      ]
+    },
+    {
+      "name": "CodeWalker",
+      "url": "https://discord.gg/codewalker",
+      "category": "world-editing",
+      "notes": [
+        "Used for mapping and world asset placement",
+        "Relevant for YMAP and streamed map resources"
+      ]
+    }
+  ]
+}

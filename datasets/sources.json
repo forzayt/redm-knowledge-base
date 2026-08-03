@@ -1,0 +1,146 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "sources": [
+    {
+      "id": "lua-manual-54",
+      "title": "Lua 5.4 Reference Manual",
+      "url": "https://www.lua.org/manual/5.4/",
+      "category": "language",
+      "type": "official-docs"
+    },
+    {
+      "id": "lua-pil",
+      "title": "Programming in Lua",
+      "url": "https://www.lua.org/pil/contents.html",
+      "category": "language",
+      "type": "book"
+    },
+    {
+      "id": "cfx-resource-manifest",
+      "title": "Resource manifest",
+      "url": "https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/",
+      "category": "cfx",
+      "type": "official-docs"
+    },
+    {
+      "id": "cfx-data-files",
+      "title": "Data Files",
+      "url": "https://docs.fivem.net/docs/game-references/data-files/",
+      "category": "cfx",
+      "type": "official-docs"
+    },
+    {
+      "id": "redm-docs",
+      "title": "Native Scripts Docs",
+      "url": "https://redm.nativescripts.com/docs",
+      "category": "framework",
+      "type": "official-docs"
+    },
+    {
+      "id": "redm-ns-lib",
+      "title": "Native Scripts ns-lib",
+      "url": "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+      "category": "framework",
+      "type": "official-docs"
+    },
+    {
+      "id": "vorp-docs",
+      "title": "VORP Core Docs",
+      "url": "https://docs.vorp-core.com/",
+      "category": "framework",
+      "type": "official-docs"
+    },
+    {
+      "id": "vorp-lib",
+      "title": "VORP Core lib API",
+      "url": "https://docs.vorp-core.com/api-reference/lib",
+      "category": "framework",
+      "type": "api-docs"
+    },
+    {
+      "id": "vorp-home",
+      "title": "VORP Core site",
+      "url": "https://vorp-core.com/",
+      "category": "framework",
+      "type": "project-site"
+    },
+    {
+      "id": "rsg-site",
+      "title": "RSG Core site",
+      "url": "https://www.rsg-core.com/",
+      "category": "framework",
+      "type": "project-site"
+    },
+    {
+      "id": "redem-org",
+      "title": "RedEM-RP GitHub org",
+      "url": "https://github.com/RedEM-RP",
+      "category": "framework",
+      "type": "github-org"
+    },
+    {
+      "id": "rexshack-org",
+      "title": "Rexshack-RedM GitHub org",
+      "url": "https://github.com/Rexshack-RedM",
+      "category": "framework",
+      "type": "github-org"
+    },
+    {
+      "id": "vorp-org",
+      "title": "VORPCORE GitHub repositories",
+      "url": "https://github.com/orgs/VORPCORE/repositories",
+      "category": "framework",
+      "type": "github-org"
+    },
+    {
+      "id": "alloc8or-data",
+      "title": "alloc8or/rdr3-nativedb-data",
+      "url": "https://github.com/alloc8or/rdr3-nativedb-data",
+      "category": "natives",
+      "type": "github-repo"
+    },
+    {
+      "id": "alloc8or-db",
+      "title": "RDR2 Native DB",
+      "url": "https://alloc8or.re/rdr3/nativedb/",
+      "category": "natives",
+      "type": "native-db"
+    },
+    {
+      "id": "nativewrappers",
+      "title": "nativewrappers/rdr3-natives",
+      "url": "https://github.com/nativewrappers/rdr3-natives",
+      "category": "natives",
+      "type": "github-repo"
+    },
+    {
+      "id": "vorp-rdr3natives",
+      "title": "VORPCORE/RDR3natives",
+      "url": "https://github.com/VORPCORE/RDR3natives",
+      "category": "natives",
+      "type": "github-repo"
+    },
+    {
+      "id": "femga-discoveries",
+      "title": "rdr3_discoveries",
+      "url": "https://femga.github.io/rdr3_discoveries/",
+      "category": "natives",
+      "type": "discoveries"
+    },
+    {
+      "id": "openiv",
+      "title": "OpenIV",
+      "url": "https://openiv.com/",
+      "category": "tooling",
+      "type": "modding-tool"
+    },
+    {
+      "id": "lml",
+      "title": "Lenny's Mod Loader RDR",
+      "url": "https://www.rdr2mods.com/downloads/rdr2/tools/76-lennys-mod-loader-rdr/",
+      "category": "tooling",
+      "type": "modding-tool"
+    }
+  ]
+}
