@@ -1,33 +1,132 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
     "https://github.com/alloc8or/rdr3-nativedb-data",
+    "https://alloc8or.re/rdr3/nativedb/",
     "https://github.com/nativewrappers/rdr3-natives",
     "https://github.com/VORPCORE/RDR3natives",
-    "https://femga.github.io/rdr3_discoveries/"
+    "https://femga.github.io/rdr3_discoveries/",
+    "https://github.com/MoosheTV/redm-external"
   ],
   "families": [
     {
       "slug": "native-hashes",
       "name": "Native Hashes",
-      "description": "Hash values that identify native functions."
+      "description": "Jenkins-one-at-a-time hashes identifying each RDR3 script native function. Call them from Lua/C# via Citizen.InvokeNative or shorthand wrappers.",
+      "notes": [
+        "Total known natives (RDR3 build 1491.18): ~7,600",
+        "Namespaces are Rockstar conventions; alloc8or/nativewrappers group them accordingly",
+        "When a native has no known name, use hex e.g. 0x554D9D53F696D002 directly"
+      ]
     },
     {
       "slug": "model-hashes",
       "name": "Model Hashes",
-      "description": "Hashes used for ped, horse, object, and weapon models."
+      "description": "Hashes for ped, horse, weapon, object, and vehicle models returned by GetHashKey(model_string) or joaat(model_string).",
+      "notes": [
+        "Always include BOTH hash_hex and hash_dec in datasets; C#/Lua docs show hex, Cfx APIs often accept or print dec",
+        "Ped model names are case-sensitive: mp_male, UmmValgunsmith01, A_C_Deer_01, etc."
+      ]
     },
     {
       "slug": "blip-hashes",
-      "name": "Blip Hashes",
-      "description": "Hashes or names used for map marker styles and icons."
+      "name": "Blip Hashes / Sprites",
+      "description": "Integer sprite IDs passed to SetBlipSprite() and color palette IDs passed to SetBlipColour().",
+      "notes": [
+        "Sprite IDs are signed decimal integers in RedM Lua",
+        "See blips.json > sprites[] and blips.json > colors[] for enumerated values"
+      ]
     },
     {
       "slug": "collection-hashes",
-      "name": "Collection Hashes",
-      "description": "Hashes used in collection-based component or prop indexing."
+      "name": "Ped Component / Prop Collection Hashes",
+      "description": "Hashes used for SetPedComponentVariation (drawable slots 0..11) and SetPedPropIndex (hat/glasses/watch etc.) and hair/beard/scars tints.",
+      "notes": [
+        "Male (mp_male): 138 face variations across drawables+textures",
+        "Female (mp_female): 122 variations documented",
+        "Use GetNumPedDrawableVariations / GetNumPedTextureVariations at runtime per slot"
+      ]
+    },
+    {
+      "slug": "weapon-component-hashes",
+      "name": "Weapon Component / Attachment Hashes",
+      "description": "JOAAT hashes used in GiveWeaponComponentToPed / HasPedGotWeaponComponent. Examples: 0x926612BA (scope), 0x0D7C5B9D (long barrel).",
+      "notes": [
+        "Many attachments have COMPONENT_* string constants in femga's discoveries repo",
+        "Per-weapon whitelist enforced by the engine; test before assuming a component fits"
+      ]
+    },
+    {
+      "slug": "prompt-hashes",
+      "name": "Prompt Control / Mode Hashes",
+      "description": "JOAAT control names passed to PromptRegisterBegin / PromptSetControlAction: `INPUT_CONTEXT_X` etc. Used directly or via ns-lib wrappers.",
+      "notes": [
+        "See prompts.json for enumerated prompt slugs used by frameworks"
+      ]
+    },
+    {
+      "slug": "vehicle-seat-hashes",
+      "name": "Vehicle / Wagon Seat Bone Hashes",
+      "description": "Bone IDs for GetEntityBoneIndexByName used by carriage/wagon scripts: `seat_front`, `seat_back`, `seat_hunter`, `door_hatch_l` etc.",
+      "notes": [
+        "SCRIPTED_WAGON_MANAGER natives return bone-based seat indices"
+      ]
     }
+  ],
+  "native_namespaces": [
+    { "slug": "AUDIO",         "name": "Audio / Sound",                 "approx_count": 132, "common_natives": ["PlaySoundFrontend","PlaySoundFromEntity","RequestScriptAudioBank","GetSoundId","ReleaseSoundId","StopSound"], "notes": "Sound banks loaded via REQUEST_SCRIPT_AUDIO_BANK with alias strings from dat files" },
+    { "slug": "BRAIN",         "name": "AI Brain / Task Trees",         "approx_count":  28, "common_natives": ["TaskStartScenarioInPlace","TaskGoToEntity","TaskCombatPed","TaskWanderStandard","ClearPedTasksImmediately"], "notes": "Low-level task scheduling; most scripters use TASK namespace instead" },
+    { "slug": "CAM",           "name": "Camera",                        "approx_count": 118, "common_natives": ["CreateCam","RenderScriptCams","SetCamCoord","SetCamRot","DestroyCam","GetGameplayCamRot"], "notes": "Always render with third bool=false to avoid head-clamping" },
+    { "slug": "CLOCK",         "name": "Clock / Time of Day",           "approx_count":  15, "common_natives": ["GetClockHours","GetClockMinutes","GetClockDayOfMonth","AdvanceClockTimeTo","NetworkGetServerTimeMilliseconds"], "notes": "Combine with NetworkGetServerTimeMilliseconds for server-authoritative clocks" },
+    { "slug": "CUTSCENE",      "name": "Cutscene System",               "approx_count":  84, "common_natives": ["RequestCutscene","HasCutsceneLoaded","StartCutscene","CanSkipCutscene","StopCutsceneImmediately"], "notes": "Requires registered cutscene RSC files streamed" },
+    { "slug": "DATAFILE",      "name": "DataFile (DLC/Popcycle/etc.)",  "approx_count":  42, "common_natives": ["RequestAdditionalDataFile","HasAdditionalDataFileLoaded","GetAdditionalDataFileIndex","LoadPopcycleFromPath"], "notes": "Useful for injecting custom popgroups without replacing originals" },
+    { "slug": "DECORATOR",     "name": "Entity Decorator (K/V)",        "approx_count":  22, "common_natives": ["DecorRegister","DecorSetInt","DecorSetBool","DecorGetInt","DecorExistOn","DecorRemove"], "notes": "Register types ONCE before use; use stable string keys" },
+    { "slug": "ENTITY",        "name": "Entity (base of all)",          "approx_count": 322, "common_natives": ["CreatePed","CreateVehicle","DoesEntityExist","DeleteEntity","GetEntityCoords","SetEntityCoords","GetEntityModel","NetworkGetNetworkIdFromEntity"], "notes": "Peds, horses, objects, wagons all expose ENTITY natives" },
+    { "slug": "EVENT",         "name": "Game Event Handlers",           "approx_count":  64, "common_natives": ["AddEventHandler","TriggerEvent","TriggerServerEvent","RegisterNetEvent","CancelEvent"], "notes": "Cfx overlay (not RDR3-native); used everywhere in RedM Lua" },
+    { "slug": "FIRE",          "name": "Fire / Explosion",              "approx_count":  22, "common_natives": ["StartScriptFire","AddExplosion","GetNumberOfFiresInRange","RemoveScriptFire","IsPedOnFire","StopEntityFire"], "notes": "Avoid AddExplosion inside loops; radius cap enforced by engine" },
+    { "slug": "GRAPHICS",      "name": "Graphics / Draw / Texture",     "approx_count": 176, "common_natives": ["DrawRect","DrawText","DrawSprite","RequestStreamedTextureDict","HasStreamedTextureDictLoaded","SetDrawOrigin"], "notes": "Only call Draw* while IsScreenFadedOut() is false and inside a render tick" },
+    { "slug": "HUD",           "name": "HUD / UI / Minimap",            "approx_count": 124, "common_natives": ["DisplayHud","DisplayRadar","SetMinimapHideFOW","BeginTextCommandDisplayHelp","AddTextComponentString","EndTextCommandDisplayHelp"], "notes": "Use 0x9CB1A1623062F402 (SetBlipNameFromTextFile) for blip names via strings.gxt2" },
+    { "slug": "INTERIOR",      "name": "Interiors / IPL",               "approx_count":  88, "common_natives": ["GetInteriorAtCoords","IsInteriorReady","PinInteriorInMemory","GetInteriorLocation","ActivateInteriorEntitySet","DeactivateInteriorEntitySet"], "notes": "Sheriff jails, Valentine hotel, SD saloons all expose IPL entity sets" },
+    { "slug": "ITEMSETS",      "name": "Item Sets (spawn batches)",     "approx_count":  18, "common_natives": ["CreateItemset","AddToItemset","IsInItemset","RemoveFromItemset","DestroyItemset"], "notes": "Used by pickups, area-loot, and horse-stable herd iterators" },
+    { "slug": "LOCOMOTIVE",    "name": "Train Locomotives",             "approx_count":  38, "common_natives": ["CreateTrainMissionTrain","SetTrainSpeed","SetTrainCruiseSpeed","DoesTrainHaveLocomotive","BringTrainToHalt","GetTrainCarriageEngineId"], "notes": "Mission trains only; ambient trains are population driven" },
+    { "slug": "MISC",          "name": "Miscellaneous",                 "approx_count": 420, "common_natives": ["GetHashKey","joaat","Wait","vector3","vector2","IsControlPressed","GetGameTimer","GetFrameTime","GetRandomIntInRange","HasModelLoaded","RequestModel","SetModelAsNoLongerNeeded"], "notes": "Catch-all bucket; joaat() in Lua == GetHashKey" },
+    { "slug": "MONEY",         "name": "Economy / Cash / Gold",         "approx_count":  18, "common_natives": ["Money_IncCash","Money_DecCash","Money_GetCash","Money_AddUncleanCash","HUD_GET_MONEY_STRING"], "notes": "Most RedM frameworks use SQL wallets; use Money_* only for temporary HUD-only transactions" },
+    { "slug": "OBJECT",        "name": "Object / Prop",                 "approx_count": 216, "common_natives": ["CreateObject","CreateObjectNoOffset","PlaceObjectOnGroundProperly","DoesObjectExist","GetEntityCoords","SetEntityRotation","FreezeEntityPosition"], "notes": "Always set collision and freeze flags after placement" },
+    { "slug": "PATHFIND",      "name": "Pathfinding / NavMesh",         "approx_count":  66, "common_natives": ["GetGroundZFor3dCoord","GetClosestVehicleNodeWithHeading","CalculateTravelDistanceBetweenPoints","IsPointOnRoad","GetRoadVehicleNodeAtCoords","LoadPathNodeDataAtPosition"], "notes": "Async; wait after LoadPathNodeDataAtPosition before queries" },
+    { "slug": "PED",           "name": "Ped (Human NPC)",               "approx_count": 958, "common_natives": ["CreatePed","SetEntityInvincible","SetBlockingOfNonTemporaryEvents","SetEntityCanBeDamaged","GetPedCauseOfDeath","IsPedDeadOrDying","GetPedMaxHealth","SetEntityHealth","SetPedAsNoLongerNeeded","SetPedDefaultComponentVariation"], "notes": "Largest namespace. Humans and horses share many PED natives but horses have HORSE_* wrappers" },
+    { "slug": "PHYSICS",       "name": "Physics / Force",               "approx_count":  80, "common_natives": ["ApplyForceToEntity","SetEntityVelocity","GetEntityVelocity","ActivatePhysics","FreezeEntityPosition","SetEntityHasGravity"], "notes": "ApplyForceToEntity uses boneIndex for non-center forces" },
+    { "slug": "PLAYER",        "name": "Player (Cfx PlayerId)",         "approx_count": 258, "common_natives": ["PlayerPedId","GetPlayerServerId","GetActivePlayers","GetPlayerFromIndex","IsPlayerControlOn","SetPlayerControl","NetworkIsPlayerActive","GetPlayerName"], "notes": "PlayerPedId() returns the local ped; GetPlayerServerId() = source ID" },
+    { "slug": "RECORDING",     "name": "Demo Recording / Replay",       "approx_count":  12, "common_natives": ["IsRecordingDemo","StopRecordingAndSaveClip","StartRecording","SaveReplayClipAtCurrentTime"], "notes": "Developer tooling; disable in production menus" },
+    { "slug": "ROPE",          "name": "Rope / Lasso / Tie",            "approx_count":  34, "common_natives": ["AddRopeNew","AttachRopeToEntity","DetachRopeFromEntity","RopeLoadTextures","DeleteRope","PinRopeVertex"], "notes": "Must call RopeLoadTextures() before creating ropes otherwise they render invisible" },
+    { "slug": "SCRIPT",        "name": "Scripting Infrastructure",      "approx_count": 104, "common_natives": ["GetInvokingResource","GetResourceState","StartResource","StopResource","GetNumResources","GetResourceByFindIndex","GetResourceKvpString","SetResourceKvp"], "notes": "Cfx overlay namespaced under SCRIPT for organizational purposes" },
+    { "slug": "SHAPETEST",     "name": "Shape Tests (Raycast)",         "approx_count":  18, "common_natives": ["StartShapeTestRay","StartShapeTestCapsule","StartShapeTestBox","GetShapeTestResult","GetShapeTestResultIncludingMaterial"], "notes": "Flags 511 = all intersect entities; flag 4294967295 = exclude self by convention" },
+    { "slug": "STREAMING",     "name": "Streaming (YMAP/YTD/...)",      "approx_count":  58, "common_natives": ["RequestModel","HasModelLoaded","SetModelAsNoLongerNeeded","RequestAnimDict","HasAnimDictLoaded","RemoveAnimDict","RequestStreamedTextureDict"], "notes": "Always pair Request*/Has* loops with a timeout to avoid hang" },
+    { "slug": "TASK",          "name": "AI Tasks (high-level)",         "approx_count": 702, "common_natives": ["TaskGoToCoordAnyMeans","TaskDriveBy","TaskShootAtEntity","TaskFleeFrom","TaskOpenDoor","TaskSit","TaskPlayAnim","TaskLeaveVehicle","TaskEnterVehicle","TaskMountAnimal","TaskDismountAnimal"], "notes": "2nd-largest namespace. Animations go through TASK too (TaskPlayAnim + TaskStartScenario)" },
+    { "slug": "TRAIN",         "name": "Train System (Mission)",        "approx_count":  26, "common_natives": ["GetTrainMissionTrainId","SetTrainDoorsOpen","IsTrainDoorOpen","GetNumberOfCarriages","GetCarriageFromTrain"], "notes": "Pairs with LOCOMOTIVE for scripting mission trains" },
+    { "slug": "UI",            "name": "UI (Minimap/Prompts/Scaleform)", "approx_count":  94, "common_natives": ["PromptRegisterBegin","PromptRegisterEnd","PromptSetControlAction","PromptSetText","PromptSetEnabled","PromptSetVisible","PromptIsJustHold","PromptHasStandardModeCompleted"], "notes": "Prompt_* is RedM-only and not in base RDR3 nativedb; see femga discoveries" },
+    { "slug": "VEHICLE",       "name": "Vehicle (Wagon/Carriage)",      "approx_count": 420, "common_natives": ["CreateVehicle","IsVehicleDriveable","SetVehicleOnGroundProperly","GetVehiclePedIsIn","SetPedIntoVehicle","TaskWarpPedIntoVehicle","GetVehicleDoorLockStatus","SetVehicleDoorsLocked"], "notes": "Vehicles = wagons, carts, carriages, boats. Horses are separate peds under PED + ANIMAL" },
+    { "slug": "WEAPON",        "name": "Weapon / Damage",               "approx_count": 350, "common_natives": ["GiveWeaponToPed","RemoveWeaponFromPed","HasPedGotWeapon","SetCurrentPedWeapon","GetPedWeaponTintIndex","SetPedWeaponTintIndex","GetMaxAmmoInClip","SetAmmoInClip","AddAmmoToPed"], "notes": "WEAPON also covers ammo; ammo type hashes documented in weapons.json" },
+    { "slug": "ZONE",          "name": "World Zones / Districts",       "approx_count":  32, "common_natives": ["GetNameOfZone","GetZoneFromNameId","GetZoneScumminess","IsZoneEnabled","GetMapZoneAtCoords"], "notes": "Use GetNameOfZone(x,y,z) to display Valentine/Rhodes/Saint Denis/Blackwater names" }
+  ],
+  "hash_format_conventions": {
+    "joaat_lua_helper": "GetHashKey(str) == joaat(str) == Jenkins-ONE-AT-a-time lowercased",
+    "example_model_string": "mp_male -> joaat == 0xF5C1611E == dec 4123005214 (signed 32-bit in Lua)",
+    "signed_dec_note": "Cfx Lua prints model hashes as SIGNED 32-bit ints; convert to hex using (hash + 2^32) % 2^32 then to_hex for comparison",
+    "prompts": {
+      "RegisterWithModes": "PromptRegisterBegin -> PromptSetControlAction(modeId, actionId) ... PromptRegisterEnd()",
+      "CheckPattern": "while true do Wait(0); if PromptHasStandardModeCompleted(promptId, 0) then ... end end"
+    },
+    "native_invocation_pattern": {
+      "example": "local x = Citizen.InvokeNative(0x554D9D53F696D002, `blipSprite`, `blipColor`, `textLabel`)",
+      "named_wrapper_pattern": "In VORP/RSC wrappers: exports.vorp_core:addBlip({sprite=-1230993421, name='Horse', x=1, y=2, z=3})"
+    }
+  },
+  "common_hash_lookup_tips": [
+    "Search alloc8or.re/rdr3/nativedb/ by substring: e.g. 'prompt' finds all UI Prompt natives",
+    "For weapon component hashes: search femga/rdr3_discoveries 'weapon_components.txt'",
+    "For ped variations: use redm-natives-utils repo variation explorer (oakandrocks clone)",
+    "For animation dictionaries: search RDR3 animlist-exported.txt dumps shared on rdr2mods.com"
   ]
 }
