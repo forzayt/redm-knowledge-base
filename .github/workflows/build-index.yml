@@ -1,0 +1,44 @@
+name: Build Directory Index
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tree
+        run: sudo apt-get update && sudo apt-get install -y tree
+
+      - name: Generate HTML
+        run: |
+          tree \
+            -H "." \
+            -L 20 \
+            --dirsfirst \
+            --charset utf-8 \
+            -T "Repository Index" \
+            -I ".git|.github|node_modules|index.html" \
+            -o index.html
+
+      - name: Commit
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+          git add index.html
+
+          if git diff --cached --quiet; then
+            echo "Nothing changed"
+          else
+            git commit -m "Update directory index"
+            git push
+          fi
