@@ -1,0 +1,42 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://github.com/nativewrappers/rdr3-natives",
+    "https://github.com/alloc8or/rdr3-nativedb-data",
+    "https://github.com/femga/rdr3_discoveries"
+  ],
+  "groups": [
+    {
+      "slug": "revolvers",
+      "name": "Revolvers",
+      "description": "Sidearms with high thematic importance in Red Dead settings."
+    },
+    {
+      "slug": "repeaters",
+      "name": "Repeaters",
+      "description": "Mid-range firearms used for flexible combat."
+    },
+    {
+      "slug": "rifles",
+      "name": "Rifles",
+      "description": "Long-range and hunting-oriented weapons."
+    },
+    {
+      "slug": "shotguns",
+      "name": "Shotguns",
+      "description": "Close-range high-damage weapons."
+    },
+    {
+      "slug": "melee",
+      "name": "Melee",
+      "description": "Blades, tools, and close-combat weapons."
+    },
+    {
+      "slug": "thrown",
+      "name": "Thrown",
+      "description": "Throwables and explosives."
+    }
+  ]
+}

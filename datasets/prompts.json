@@ -1,0 +1,30 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+    "https://docs.vorp-core.com/api-reference/lib",
+    "https://github.com/femga/rdr3_discoveries"
+  ],
+  "groups": [
+    {
+      "slug": "interaction",
+      "name": "Interaction Prompts",
+      "description": "Press-to-interact prompts attached to world objects or coordinates."
+    },
+    {
+      "slug": "groups",
+      "name": "Prompt Groups",
+      "description": "Multiple prompts managed as one unit.",
+      "notes": [
+        "Useful for menus, vendors, and stacked interactions"
+      ]
+    },
+    {
+      "slug": "framework-wrappers",
+      "name": "Framework Wrappers",
+      "description": "Prompt helper abstractions exposed by framework libraries."
+    }
+  ]
+}

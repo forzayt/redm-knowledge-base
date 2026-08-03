@@ -1,0 +1,59 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://github.com/femga/rdr3_discoveries",
+    "https://github.com/nativewrappers/rdr3-natives"
+  ],
+  "groups": [
+    {
+      "slug": "civilians",
+      "name": "Civilians",
+      "description": "Ambient townsfolk, travelers, and neutral NPCs.",
+      "notes": [
+        "Use for towns, roads, and low-risk ambient interactions"
+      ]
+    },
+    {
+      "slug": "lawmen",
+      "name": "Lawmen",
+      "description": "Sheriffs, deputies, and law enforcement roles.",
+      "notes": [
+        "Useful for bounty, arrest, and town defense scenarios"
+      ]
+    },
+    {
+      "slug": "vendors",
+      "name": "Vendors",
+      "description": "Shopkeepers, traders, and service NPCs.",
+      "notes": [
+        "Often pair with prompt interactions and blips"
+      ]
+    },
+    {
+      "slug": "doctors",
+      "name": "Doctors",
+      "description": "Healing or medical service NPCs.",
+      "notes": [
+        "Usually placed near towns or clinics"
+      ]
+    },
+    {
+      "slug": "sheriffs",
+      "name": "Sheriffs",
+      "description": "Named law role variant useful for town hubs.",
+      "notes": [
+        "Can be a role-specific lawman subtype"
+      ]
+    },
+    {
+      "slug": "animals",
+      "name": "Animals",
+      "description": "Wildlife, farm animals, and controlled ambient creatures.",
+      "notes": [
+        "Split by tame versus wild when the dataset expands"
+      ]
+    }
+  ]
+}

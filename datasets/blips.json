@@ -1,0 +1,40 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://docs.fivem.net/docs/game-references/blips/",
+    "https://docs.vorp-core.com/api-reference/lib",
+    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib"
+  ],
+  "styles": [
+    {
+      "slug": "static",
+      "name": "Static Blip",
+      "description": "A map marker at a fixed coordinate."
+    },
+    {
+      "slug": "entity",
+      "name": "Entity Blip",
+      "description": "A blip attached to a moving ped, horse, or vehicle."
+    },
+    {
+      "slug": "radius",
+      "name": "Radius Blip",
+      "description": "A circular search or influence zone."
+    },
+    {
+      "slug": "route",
+      "name": "Route Blip",
+      "description": "A waypoint or route indicator used for guidance."
+    }
+  ],
+  "colors": [
+    { "id": 1, "name": "Red" },
+    { "id": 2, "name": "Green" },
+    { "id": 3, "name": "Blue" },
+    { "id": 5, "name": "Yellow" },
+    { "id": 46, "name": "Gold" },
+    { "id": 55, "name": "Silver" }
+  ]
+}

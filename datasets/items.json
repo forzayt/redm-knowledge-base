@@ -1,0 +1,53 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+    "https://docs.vorp-core.com/api-reference/inventory",
+    "https://github.com/RedEM-RP",
+    "https://github.com/Rexshack-RedM"
+  ],
+  "groups": [
+    {
+      "slug": "consumables",
+      "name": "Consumables",
+      "description": "Food, drink, and other items consumed for effects.",
+      "notes": [
+        "Pairs with hunger, thirst, and status systems"
+      ]
+    },
+    {
+      "slug": "materials",
+      "name": "Materials",
+      "description": "Crafting inputs and processing goods.",
+      "notes": [
+        "Keep recipe references separate from the item list"
+      ]
+    },
+    {
+      "slug": "trade-goods",
+      "name": "Trade Goods",
+      "description": "Items bought, sold, or delivered through shops and missions.",
+      "notes": [
+        "Useful for economy and delivery jobs"
+      ]
+    },
+    {
+      "slug": "quest-items",
+      "name": "Quest Items",
+      "description": "Items meant for one-time mission or progression logic.",
+      "notes": [
+        "Avoid mixing these with normal inventory utilities"
+      ]
+    },
+    {
+      "slug": "documents",
+      "name": "Documents",
+      "description": "Notes, papers, and other readable items.",
+      "notes": [
+        "Often used for clues, missions, and lore"
+      ]
+    }
+  ]
+}

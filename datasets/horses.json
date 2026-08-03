@@ -1,0 +1,43 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://github.com/femga/rdr3_discoveries",
+    "https://github.com/nativewrappers/rdr3-natives"
+  ],
+  "groups": [
+    {
+      "slug": "workhorses",
+      "name": "Work Horses",
+      "description": "Practical mounts used for labor or utility.",
+      "notes": [
+        "Useful for stable systems and player ownership docs"
+      ]
+    },
+    {
+      "slug": "warhorses",
+      "name": "War Horses",
+      "description": "Combat-oriented mounts with stronger behavior use cases.",
+      "notes": [
+        "Relevant to combat jobs and escort scenarios"
+      ]
+    },
+    {
+      "slug": "racing",
+      "name": "Racing Horses",
+      "description": "Fast mounts tuned for travel or competitive riding.",
+      "notes": [
+        "Can be linked to speed and stamina reference docs"
+      ]
+    },
+    {
+      "slug": "coats",
+      "name": "Coats",
+      "description": "Horse model and coat variations.",
+      "notes": [
+        "Should eventually become an exact model dataset"
+      ]
+    }
+  ]
+}

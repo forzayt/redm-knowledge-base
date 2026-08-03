@@ -1,0 +1,33 @@
+{
+  "generated_for": "redm-ai-kb",
+  "last_updated": "2026-08-03",
+  "coverage": "starter",
+  "source_refs": [
+    "https://github.com/alloc8or/rdr3-nativedb-data",
+    "https://github.com/nativewrappers/rdr3-natives",
+    "https://github.com/VORPCORE/RDR3natives",
+    "https://femga.github.io/rdr3_discoveries/"
+  ],
+  "families": [
+    {
+      "slug": "native-hashes",
+      "name": "Native Hashes",
+      "description": "Hash values that identify native functions."
+    },
+    {
+      "slug": "model-hashes",
+      "name": "Model Hashes",
+      "description": "Hashes used for ped, horse, object, and weapon models."
+    },
+    {
+      "slug": "blip-hashes",
+      "name": "Blip Hashes",
+      "description": "Hashes or names used for map marker styles and icons."
+    },
+    {
+      "slug": "collection-hashes",
+      "name": "Collection Hashes",
+      "description": "Hashes used in collection-based component or prop indexing."
+    }
+  ]
+}
