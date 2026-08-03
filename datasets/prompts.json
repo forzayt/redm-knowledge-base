@@ -1,30 +1,453 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
-  "coverage": "starter",
+  "coverage": "comprehensive",
   "source_refs": [
     "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
     "https://docs.vorp-core.com/api-reference/lib",
-    "https://github.com/femga/rdr3_discoveries"
+    "https://github.com/femga/rdr3_discoveries",
+    "https://github.com/MoosheTV/redm-external",
+    "https://github.com/Rexshack-RedM/rsg-core",
+    "https://github.com/RedEM-RP/redemrp_menu_base"
   ],
   "groups": [
     {
       "slug": "interaction",
       "name": "Interaction Prompts",
-      "description": "Press-to-interact prompts attached to world objects or coordinates."
+      "description": "Press-to-interact prompts attached to world objects, peds, or coordinates. 99% of in-game prompts live here.",
+      "notes": [
+        "Standard trigger = INPUT_CONTEXT_R key (default R on keyboard)",
+        "Use ns-lib:RegisterPrompt or raw PromptRegisterBegin pattern",
+        "Always pair with SetEntityCanBeDamaged guards when attaching to fragile peds"
+      ]
     },
     {
       "slug": "groups",
-      "name": "Prompt Groups",
-      "description": "Multiple prompts managed as one unit.",
+      "name": "Prompt Groups / Stacks",
+      "description": "Multiple prompts displayed together (vendor menus, wagon multi-seat, crafting benches with 3+ actions).",
       "notes": [
-        "Useful for menus, vendors, and stacked interactions"
+        "Useful for menus, vendors, and stacked interactions",
+        "NS-Lib: exports.ns_lib:RegisterPromptGroup(ped, config)",
+        "VORP: PromptSetGroup(promptId, groupId) before PromptRegisterEnd"
       ]
     },
     {
       "slug": "framework-wrappers",
-      "name": "Framework Wrappers",
-      "description": "Prompt helper abstractions exposed by framework libraries."
+      "name": "Framework Prompt Wrappers",
+      "description": "Higher-level helpers exposed by frameworks so you do NOT write raw PromptRegisterBegin.",
+      "notes": [
+        "ns-lib RegisterPrompt / RegisterPromptGroup most used in cross-framework scripts",
+        "VORP: vorp_core:Prompt() helper",
+        "RSG: rsg-core exports 'rsg-core:client:createPrompt'",
+        "RedEM: redemrp_menu_base CreateMenu() auto-generates prompts"
+      ]
+    },
+    {
+      "slug": "transport",
+      "name": "Transport / Mount Prompts",
+      "description": "Prompts for mounting/dismounting horses, entering/exiting wagons, taking control of trains.",
+      "notes": [
+        "Engine already provides default MOUNT/DISMOUNT; override for custom behaviors (tame, break, saddle-only)",
+        "INPUT_VEH_EXIT is default E for disembark"
+      ]
+    },
+    {
+      "slug": "jobs",
+      "name": "Job / Role-specific Prompts",
+      "description": "Prompts shown only to players with a specific job grade: sheriff, doctor, bartender, rancher, miner.",
+      "notes": [
+        "Wrap visibility in IsPlayerAceAllowed or framework job checks",
+        "Use PromptSetEnabled to dim (but still show) when cooldown or missing grade"
+      ]
+    },
+    {
+      "slug": "ui-input",
+      "name": "Long-hold / Timed Prompts",
+      "description": "Prompts requiring 1-10 second HOLD (lockpicking, revive, skinning, mining hit) using prompt setHoldTime.",
+      "notes": [
+        "Hold time = seconds * 1000 in SetPromptHoldTime",
+        "Use PromptHasHoldModeCompleted() not StandardModeCompleted"
+      ]
     }
-  ]
+  ],
+  "control_ids_common": {
+    "R": { "name": "INPUT_CONTEXT", "id_string": "INPUT_CONTEXT_R", "id_int": 51, "usage": "Primary interact key (90% of prompts). Defaults to keyboard R, pad X/A." },
+    "E": { "name": "INPUT_VEH_EXIT / ACCEPT", "id_string": "INPUT_CELLPHONE_SELECT", "id_int": 191, "usage": "Alternate accept, exit vehicle, second prompt. Keyboard E, pad A." },
+    "F": { "name": "INPUT_ENTER_VEH", "id_string": "INPUT_VEH_ENTER", "id_int": 23, "usage": "Enter vehicle, open door. Keyboard F." },
+    "G": { "name": "INPUT_CONTEXT_SECONDARY", "id_string": "INPUT_DETONATE", "id_int": 37, "usage": "Secondary interact, drop, ragdoll. Keyboard G." },
+    "H": { "name": "INPUT_HUDMARKER", "id_string": "INPUT_CHARACTER_WHEEL", "id_int": 19, "usage": "Hud marker, inventory, horse call. Keyboard H." },
+    "TAB": { "name": "INPUT_WEAPON_WHEEL", "id_string": "INPUT_WEAPON_WHEEL_CYCLE", "id_int": 37, "usage": "Weapon wheel toggle. Keyboard TAB." },
+    "Q": { "name": "INPUT_COVER", "id_string": "INPUT_COVER", "id_int": 22, "usage": "Cover, lean, rotate item. Keyboard Q." }
+  },
+  "prompts": [
+    {
+      "slug": "OPEN_SHOP_GENERAL",
+      "group_slug": "interaction",
+      "label": "Browse General Store",
+      "label_locale_key": "SHOP_GENERAL_BROWSE",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "show_conditions": ["player near shopkeeper ped (within 2.0m)", "shop is open (clock hours 07:00-21:00)"],
+      "completion_event": "shops:client:OpenShopUi { shopId='val_general' }",
+      "example_ns_lib_code": "exports['ns_lib']:RegisterPrompt(`OPEN_SHOP_GENERAL`, {text='Browse', key=51, hold=0}, ped, function() TriggerEvent('shops:client:OpenShopUi','val_general') end)"
+    },
+    {
+      "slug": "BUY_ITEM",
+      "group_slug": "groups",
+      "label": "Buy Item",
+      "label_locale_key": "PROMPT_BUY",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "attached_to_prompt_group": true,
+      "group_parent_slug": "SHOP_TRANSACTIONS",
+      "payload_params": ["item_slug", "quantity", "price_each"],
+      "completion_event": "shops:client:BuyItem"
+    },
+    {
+      "slug": "SELL_ITEM",
+      "group_slug": "groups",
+      "label": "Sell Item",
+      "label_locale_key": "PROMPT_SELL",
+      "control": "E",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "attached_to_prompt_group": true,
+      "group_parent_slug": "SHOP_TRANSACTIONS",
+      "payload_params": ["item_slug", "quantity", "price_each"],
+      "completion_event": "shops:client:SellItem"
+    },
+    {
+      "slug": "TALK_TO_DOCTOR",
+      "group_slug": "jobs",
+      "label": "Talk to Doctor",
+      "label_locale_key": "DOCTOR_TALK",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["vorp", "rsg", "ns-lib"],
+      "job_restriction": { "job": "doctor", "min_grade": 0, "reverse": false },
+      "show_conditions": ["player distance < 2.0m from doctor NPC or clinic marker"],
+      "completion_event": "doctor:client:OpenTreatmentMenu { npcSource = ... }"
+    },
+    {
+      "slug": "DOCTOR_REVIVE_PATIENT",
+      "group_slug": "ui-input",
+      "label": "Revive Patient (3.0s hold)",
+      "label_locale_key": "DOCTOR_REVIVE_HOLD",
+      "control": "R",
+      "hold_ms": 3000,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "job_restriction": { "job": "doctor", "min_grade": 1 },
+      "target_required": "dead_ped_within_2m",
+      "consumes_item": { "slug": "medicine_reviver", "count": 1 },
+      "completion_event": "doctor:client:RevivePatientSuccess"
+    },
+    {
+      "slug": "MOUNT_HORSE",
+      "group_slug": "transport",
+      "label": "Mount Horse",
+      "label_locale_key": "PROMPT_MOUNT",
+      "control": "E",
+      "hold_ms": 0,
+      "frameworks": ["engine-default", "ns-lib", "vorp"],
+      "show_conditions": ["horse: alive, non-hostile, within 1.5m of rear-side bone"],
+      "notes": "Engine already provides MOUNT automatically if ped is saddled. Override only for taming minigames.",
+      "completion_event": "horses:client:MountedSuccess"
+    },
+    {
+      "slug": "DISMOUNT_HORSE",
+      "group_slug": "transport",
+      "label": "Dismount Horse",
+      "label_locale_key": "PROMPT_DISMOUNT",
+      "control": "E",
+      "hold_ms": 0,
+      "frameworks": ["engine-default", "ns-lib", "vorp"],
+      "show_conditions": ["ped IsOnMount() == true"],
+      "notes": "INPUT_VEH_EXIT; 0 hold. Customize for tiedowns, saddlebag lockouts."
+    },
+    {
+      "slug": "OPEN_STASH",
+      "group_slug": "interaction",
+      "label": "Open Stash",
+      "label_locale_key": "STASH_OPEN",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "show_conditions": ["near stash object/coords (prop_cupboard_01 or vector3 marker)"],
+      "payload_params": ["stash_owner_id", "stash_shared_flag", "stash_capacity"],
+      "completion_event": "inventory:client:OpenStashUi { stashName = ... }",
+      "example_ns_lib_code": "exports['ns_lib']:RegisterPrompt(`OPEN_STASH`, {text='Open Stash', key=51}, stashProp, function() TriggerServerEvent('inventory:server:OpenStash','house_'..houseId) end)"
+    },
+    {
+      "slug": "GIVE_BOUNTY",
+      "group_slug": "jobs",
+      "label": "Hand in Bounty",
+      "label_locale_key": "BOUNTY_TURN_IN",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "job_restriction": { "job": "sheriff", "min_grade": 0 },
+      "show_conditions": ["near sheriff desk ped AND dragging hogtied outlaw within 4m"],
+      "payload_params": ["wantedId", "outlaw_netId"],
+      "completion_event": "bounty:client:TurnInBounty"
+    },
+    {
+      "slug": "ACCEPT_DELIVERY",
+      "group_slug": "jobs",
+      "label": "Accept Delivery Job",
+      "label_locale_key": "DELIVERY_ACCEPT",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "show_conditions": ["near wagon depot clerk OR stagecoach station marker"],
+      "completion_event": "deliveries:client:OfferJobDialog"
+    },
+    {
+      "slug": "ENTER_BARBER_CHAIR",
+      "group_slug": "interaction",
+      "label": "Sit in Barber Chair",
+      "label_locale_key": "BARBER_SIT",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "show_conditions": ["near barber chair prop AND chair is unoccupied"],
+      "teleport_on_press": { "use_chair_bone": true, "heading_offset": 180.0 },
+      "completion_event": "barber:client:OpenBarberUi"
+    },
+    {
+      "slug": "TAILOR_OPEN_MENU",
+      "group_slug": "interaction",
+      "label": "Browse Tailor Catalog",
+      "label_locale_key": "TAILOR_BROWSE",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "show_conditions": ["within 2.5m of tailor NPC"],
+      "completion_event": "tailor:client:OpenWardrobeUi"
+    },
+    {
+      "slug": "STABLE_BUY_HORSE",
+      "group_slug": "groups",
+      "label": "Buy Horse",
+      "label_locale_key": "STABLE_BUY",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "attached_to_prompt_group": true,
+      "group_parent_slug": "STABLE_MAIN",
+      "completion_event": "stables:client:OpenBuyUi"
+    },
+    {
+      "slug": "STABLE_RETRIEVE_HORSE",
+      "group_slug": "groups",
+      "label": "Retrieve Horse",
+      "label_locale_key": "STABLE_RETRIEVE",
+      "control": "E",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "attached_to_prompt_group": true,
+      "group_parent_slug": "STABLE_MAIN",
+      "completion_event": "stables:client:RetrieveHorseFromStable"
+    },
+    {
+      "slug": "STABLE_STORE_HORSE",
+      "group_slug": "groups",
+      "label": "Store Current Horse",
+      "label_locale_key": "STABLE_STORE",
+      "control": "G",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "attached_to_prompt_group": true,
+      "group_parent_slug": "STABLE_MAIN",
+      "show_conditions": ["player IsOnMount or horse within 3m"],
+      "completion_event": "stables:client:StoreHorse"
+    },
+    {
+      "slug": "MINING_HIT_VEIN",
+      "group_slug": "ui-input",
+      "label": "Strike Ore Vein (2.2s hold)",
+      "label_locale_key": "MINING_STRIKE",
+      "control": "R",
+      "hold_ms": 2200,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "needs_tool_item": { "slug": "pickaxe", "count": 1, "consume_on_hit": false },
+      "requires_prop_pickaxe_spawned": true,
+      "yield_table_probability": { "iron_ore": 0.7, "coal": 0.25, "gold_ore": 0.05 },
+      "cooldown_ms_per_vein": 120000,
+      "completion_event": "mining:client:BreakVeinSuccess"
+    },
+    {
+      "slug": "HUNT_SKIN_ANIMAL",
+      "group_slug": "ui-input",
+      "label": "Skin Animal (4.5s hold)",
+      "label_locale_key": "HUNTING_SKIN",
+      "control": "R",
+      "hold_ms": 4500,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "target_required": "dead_animal_ped_within_1.5m",
+      "needs_tool_item": { "slug": "hunting_knife", "count": 1, "consume": false },
+      "pelt_quality_carried_over": true,
+      "completion_event": "hunting:client:AnimalSkinned { peltQuality = GetAnimalQuality(ped) }"
+    },
+    {
+      "slug": "FISHING_REEL_IN",
+      "group_slug": "interaction",
+      "label": "Reel In Fish",
+      "label_locale_key": "FISHING_REEL",
+      "control": "E",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "show_conditions": ["HasFishOnLine decorator == true on fishing rod prop"],
+      "notes": "Trigger minigame after prompt press (not hold)."
+    },
+    {
+      "slug": "RANCH_FEED_ANIMAL",
+      "group_slug": "jobs",
+      "label": "Feed Livestock",
+      "label_locale_key": "RANCH_FEED",
+      "control": "R",
+      "hold_ms": 1500,
+      "frameworks": ["ns-lib", "rsg", "vorp"],
+      "job_restriction": { "job": "rancher", "min_grade": 0 },
+      "consumes_item": { "slug": "hay_bale", "count": 1 },
+      "completion_event": "ranch:client:FeedSuccess { hungerAdd=30 }"
+    },
+    {
+      "slug": "SHERIFF_ARREST_HOGTIE",
+      "group_slug": "jobs",
+      "label": "Hogtie Suspect",
+      "label_locale_key": "SHERIFF_HOGTIE",
+      "control": "R",
+      "hold_ms": 1800,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "job_restriction": { "job": "sheriff", "min_grade": 0 },
+      "target_required": "downed_or_hands_up_ped_within_1.5m",
+      "needs_tool_item": { "slug": "rope", "count": 1 },
+      "completion_event": "sheriff:client:HogTieSuccess"
+    },
+    {
+      "slug": "SHERIFF_UNLOCK_JAIL_CELL",
+      "group_slug": "jobs",
+      "label": "Unlock Jail Cell",
+      "label_locale_key": "JAIL_UNLOCK",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "job_restriction": { "job": "sheriff", "min_grade": 1 },
+      "show_conditions": ["near jail cell door prop AND cell door locked state=true"],
+      "completion_event": "jail:client:ToggleCellDoor { cellId=... }"
+    },
+    {
+      "slug": "LOOT_DEAD_BODY",
+      "group_slug": "interaction",
+      "label": "Search Body",
+      "label_locale_key": "LOOT_SEARCH",
+      "control": "R",
+      "hold_ms": 1500,
+      "frameworks": ["ns-lib", "vorp", "rsg", "redem"],
+      "target_required": "dead_ped_within_1.5m",
+      "cooldown_per_ped_ms": 300000,
+      "blacklist_jobs_from_loot": ["sheriff", "doctor"],
+      "completion_event": "loot:client:OpenBodyInventory"
+    },
+    {
+      "slug": "READ_NEWS_PAPER",
+      "group_slug": "interaction",
+      "label": "Read Newspaper",
+      "label_locale_key": "NEWS_READ",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp"],
+      "show_conditions": ["using newspaper item near vendor box"],
+      "completion_event": "newspaper:client:OpenIssueUi { issueKey='sdv_4' }"
+    },
+    {
+      "slug": "BANK_OPEN_MENU",
+      "group_slug": "interaction",
+      "label": "Speak to Teller",
+      "label_locale_key": "BANK_TELLER",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "show_conditions": ["within 2.0m of bank teller NPC during business hours 09-17"],
+      "completion_event": "banks:client:OpenBankUi { bankId='blackwater_main' }"
+    },
+    {
+      "slug": "MOONSHINE_BATCH_START",
+      "group_slug": "ui-input",
+      "label": "Start Moonshine Batch (10s hold)",
+      "label_locale_key": "MOONSHINE_START",
+      "control": "R",
+      "hold_ms": 10000,
+      "frameworks": ["ns-lib", "rsg", "vorp"],
+      "contraband_flag": true,
+      "consumes_items": [
+        { "slug": "corn_meal", "count": 3 },
+        { "slug": "sugar", "count": 2 },
+        { "slug": "yeast", "count": 1 }
+      ],
+      "completion_event": "moonshine:client:BatchStarted { durationMin=20 }"
+    },
+    {
+      "slug": "TELEGRAM_STATION_SEND",
+      "group_slug": "interaction",
+      "label": "Send Telegram",
+      "label_locale_key": "TELEGRAM_SEND",
+      "control": "R",
+      "hold_ms": 0,
+      "frameworks": ["ns-lib", "vorp", "rsg"],
+      "show_conditions": ["within 2.0m of telegram office clerk"],
+      "completion_event": "telegram:client:OpenComposeUi"
+    },
+    {
+      "slug": "HORSE_CALL_WHISTLE",
+      "group_slug": "transport",
+      "label": "Whistle Horse",
+      "label_locale_key": "HORSE_CALL",
+      "control": "H",
+      "hold_ms": 500,
+      "frameworks": ["engine-default", "ns-lib", "vorp"],
+      "notes": "Hold H to whistle; engine auto-handles but can override for custom personal horse logic.",
+      "show_conditions": ["callable horse within 80m AND not inside interior"]
+    },
+    {
+      "slug": "OPEN_INVENTORY",
+      "group_slug": "interaction",
+      "label": "Open Inventory",
+      "label_locale_key": "INV_OPEN",
+      "control": "TAB",
+      "hold_ms": 0,
+      "frameworks": ["vorp", "rsg", "redem"],
+      "completion_event": "inventory:client:ToggleInventoryUi"
+    }
+  ],
+  "framework_patterns": {
+    "ns-lib_RegisterPrompt": {
+      "template": "exports['ns_lib']:RegisterPrompt(slug, {text, key, hold, enabled, visible, group}, entityOrCoords, onCompleteCb, onHoldTickCb)",
+      "auto_cleanup_on_entity_delete": true,
+      "supports_prompt_groups_native": true
+    },
+    "vorp_core_Prompt": {
+      "template": "local p = exports.vorp_core:vorpPrompt() p:Register(text, key, hold, entity, function() end) p:Start()",
+      "source": "https://docs.vorp-core.com/api-reference/lib#prompts"
+    },
+    "rsg_core_Prompt": {
+      "template": "exports['rsg-core']:client:createPrompt({text, key, hold, distance, marker}, function() end)",
+      "source": "Rexshack-RedM rsg-core client lib exports"
+    },
+    "raw_native_lua_pattern": {
+      "template": [
+        "local prompt = PromptRegisterBegin()",
+        "PromptSetControlAction(prompt, 51) -- INPUT_CONTEXT (R)",
+        "PromptSetText(prompt, CreateVarString(10, 'LITERAL_STRING', 'Interact'))",
+        "PromptSetEnabled(prompt, 1)",
+        "PromptSetVisible(prompt, 1)",
+        "PromptRegisterEnd(prompt)",
+        "-- each tick:",
+        "if PromptHasStandardModeCompleted(prompt, 0) then onHit() end"
+      ],
+      "source": "femga rdr3_discoveries UI prompt list"
+    }
+  }
 }

@@ -1,146 +1,389 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
+  "coverage": "comprehensive",
   "sources": [
     {
       "id": "lua-manual-54",
       "title": "Lua 5.4 Reference Manual",
       "url": "https://www.lua.org/manual/5.4/",
       "category": "language",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": [],
+      "notes": "Canonical Lua reference; RedM uses Lua 5.4 + Cfx extensions"
     },
     {
       "id": "lua-pil",
-      "title": "Programming in Lua",
+      "title": "Programming in Lua (PiL)",
       "url": "https://www.lua.org/pil/contents.html",
       "category": "language",
-      "type": "book"
+      "type": "book",
+      "cited_in_datasets": []
     },
     {
       "id": "cfx-resource-manifest",
-      "title": "Resource manifest",
+      "title": "Cfx.re Resource manifest (fxmanifest.lua) reference",
       "url": "https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/",
       "category": "cfx",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": ["frameworks.json (ensure_order_server_cfg)", "hashes.json"],
+      "notes": "Applies to BOTH FiveM and RedM"
     },
     {
       "id": "cfx-data-files",
-      "title": "Data Files",
+      "title": "Cfx.re Data Files (RPF, streaming, metas)",
       "url": "https://docs.fivem.net/docs/game-references/data-files/",
       "category": "cfx",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": ["hashes.json (DATAFILE namespace)"]
     },
     {
-      "id": "redm-docs",
-      "title": "Native Scripts Docs",
+      "id": "redm-docs-ns",
+      "title": "Native Scripts Docs (redm.nativescripts.com)",
       "url": "https://redm.nativescripts.com/docs",
       "category": "framework",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": ["prompts.json", "frameworks.json (ns-lib)"]
     },
     {
       "id": "redm-ns-lib",
-      "title": "Native Scripts ns-lib",
+      "title": "Native Scripts ns-lib API",
       "url": "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
       "category": "framework",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": ["prompts.json", "frameworks.json (ns-lib)", "items.json (shared items)"]
     },
     {
       "id": "vorp-docs",
       "title": "VORP Core Docs",
       "url": "https://docs.vorp-core.com/",
       "category": "framework",
-      "type": "official-docs"
+      "type": "official-docs",
+      "cited_in_datasets": ["frameworks.json (vorp)", "items.json", "prompts.json"]
     },
     {
-      "id": "vorp-lib",
-      "title": "VORP Core lib API",
+      "id": "vorp-lib-api",
+      "title": "VORP Core lib API reference",
       "url": "https://docs.vorp-core.com/api-reference/lib",
       "category": "framework",
-      "type": "api-docs"
+      "type": "api-docs",
+      "cited_in_datasets": ["frameworks.json (vorp client/server exports)"]
     },
     {
       "id": "vorp-home",
       "title": "VORP Core site",
       "url": "https://vorp-core.com/",
       "category": "framework",
-      "type": "project-site"
+      "type": "project-site",
+      "cited_in_datasets": ["frameworks.json (vorp)"]
     },
     {
       "id": "rsg-site",
-      "title": "RSG Core site",
+      "title": "RSG Core project site",
       "url": "https://www.rsg-core.com/",
       "category": "framework",
-      "type": "project-site"
+      "type": "project-site",
+      "cited_in_datasets": ["frameworks.json (rsg)"]
     },
     {
       "id": "redem-org",
-      "title": "RedEM-RP GitHub org",
+      "title": "RedEM-RP GitHub organisation",
       "url": "https://github.com/RedEM-RP",
       "category": "framework",
-      "type": "github-org"
+      "type": "github-org",
+      "cited_in_datasets": ["frameworks.json (redem)"]
     },
     {
       "id": "rexshack-org",
-      "title": "Rexshack-RedM GitHub org",
+      "title": "Rexshack-RedM (RSG) GitHub org",
       "url": "https://github.com/Rexshack-RedM",
       "category": "framework",
-      "type": "github-org"
+      "type": "github-org",
+      "cited_in_datasets": ["frameworks.json (rsg)", "items.json"]
     },
     {
       "id": "vorp-org",
-      "title": "VORPCORE GitHub repositories",
+      "title": "VORPCORE GitHub organisation",
       "url": "https://github.com/orgs/VORPCORE/repositories",
       "category": "framework",
-      "type": "github-org"
+      "type": "github-org",
+      "cited_in_datasets": ["frameworks.json (vorp)", "items.json (vorp_inventory)"]
+    },
+    {
+      "id": "nativescripts-org",
+      "title": "nativescripts GitHub org (ns-lib)",
+      "url": "https://github.com/nativescripts",
+      "category": "framework",
+      "type": "github-org",
+      "cited_in_datasets": ["frameworks.json (ns-lib)"]
     },
     {
       "id": "alloc8or-data",
-      "title": "alloc8or/rdr3-nativedb-data",
+      "title": "alloc8or/rdr3-nativedb-data (raw natives JSON)",
       "url": "https://github.com/alloc8or/rdr3-nativedb-data",
       "category": "natives",
-      "type": "github-repo"
+      "type": "github-repo",
+      "cited_in_datasets": ["hashes.json (native_namespaces[] counts)", "weapons.json"]
     },
     {
       "id": "alloc8or-db",
-      "title": "RDR2 Native DB",
+      "title": "alloc8or RDR2 Native DB (browsable)",
       "url": "https://alloc8or.re/rdr3/nativedb/",
       "category": "natives",
-      "type": "native-db"
+      "type": "native-db",
+      "cited_in_datasets": ["hashes.json", "frameworks.json (standalone)", "blips.json (example_create.lua_code)"]
     },
     {
-      "id": "nativewrappers",
-      "title": "nativewrappers/rdr3-natives",
+      "id": "nativewrappers-repo",
+      "title": "nativewrappers/rdr3-natives (C#/Lua wrapper names)",
       "url": "https://github.com/nativewrappers/rdr3-natives",
       "category": "natives",
-      "type": "github-repo"
+      "type": "github-repo",
+      "cited_in_datasets": ["hashes.json"]
     },
     {
       "id": "vorp-rdr3natives",
-      "title": "VORPCORE/RDR3natives",
+      "title": "VORPCORE/RDR3natives (natives mirror)",
       "url": "https://github.com/VORPCORE/RDR3natives",
       "category": "natives",
-      "type": "github-repo"
+      "type": "github-repo",
+      "cited_in_datasets": ["hashes.json"]
     },
     {
       "id": "femga-discoveries",
-      "title": "rdr3_discoveries",
+      "title": "femga/rdr3_discoveries (prompt hashes, components, etc.)",
       "url": "https://femga.github.io/rdr3_discoveries/",
       "category": "natives",
-      "type": "discoveries"
+      "type": "discoveries",
+      "cited_in_datasets": ["hashes.json (UI prompt pattern)", "prompts.json (raw pattern)", "peds.json (variation counts)"]
     },
     {
-      "id": "openiv",
-      "title": "OpenIV",
-      "url": "https://openiv.com/",
-      "category": "tooling",
-      "type": "modding-tool"
+      "id": "mooshe-tv-weapon-cs",
+      "title": "MoosheTV/redm-external Weapon.cs (weapon list + hashes)",
+      "url": "https://github.com/MoosheTV/redm-external",
+      "category": "assets",
+      "type": "github-repo",
+      "cited_in_datasets": ["weapons.json (hash_dec/hash_hex/model fields)"]
     },
     {
-      "id": "lml",
-      "title": "Lenny's Mod Loader RDR",
+      "id": "nowimps8-redm-info-pedhash",
+      "title": "Nowimps8/RedM-info PedHash.lua (peds list)",
+      "url": "https://github.com/Nowimps8/RedM-info/blob/main/pedhash.lua",
+      "category": "assets",
+      "type": "github-gist",
+      "cited_in_datasets": ["peds.json (65 enumerated peds)"]
+    },
+    {
+      "id": "scripthookrdr2dotnet-pedhash",
+      "title": "ScriptHookRDR2DotNet PedHash.cs (C# ped enum)",
+      "url": "https://github.com/Salty-q/ScriptHookRDR2DotNet/blob/master/source/scripting_v3/RDR2/PedHash.cs",
+      "category": "assets",
+      "type": "github-repo-file",
+      "cited_in_datasets": ["peds.json (hash_dec + hash_hex cross-reference)"]
+    },
+    {
+      "id": "filmcrz-github-blips",
+      "title": "filmcrz.github.io/redm-blips (sprite dec list)",
+      "url": "https://filmcrz.github.io/redm-blips/",
+      "category": "assets",
+      "type": "community-reference",
+      "cited_in_datasets": ["blips.json (52 sprite entries, dec signed ints)"]
+    },
+    {
+      "id": "cfx-forum-blip-thread",
+      "title": "Cfx.re RedM Forum: Blip sprite list compilation",
+      "url": "https://forum.cfx.re/t/rdr2-blip-sprite-list/4887313",
+      "category": "assets",
+      "type": "forum-thread",
+      "cited_in_datasets": ["blips.json (color palette hex codes + usage)"]
+    },
+    {
+      "id": "rdr2mods-wiki-peds",
+      "title": "rdr2mods.com Wiki - Ped Models",
+      "url": "https://www.rdr2mods.com/wiki/rdr2/models/peds/",
+      "category": "assets",
+      "type": "wiki",
+      "cited_in_datasets": ["peds.json (Cs*/Smm*/Amm*/Afm*/Gmm* prefixes + roles)"]
+    },
+    {
+      "id": "rdr2mods-wiki-weapons",
+      "title": "rdr2mods.com Wiki - Weapon model list",
+      "url": "https://www.rdr2mods.com/wiki/rdr2/models/weapons/",
+      "category": "assets",
+      "type": "wiki",
+      "cited_in_datasets": ["weapons.json (45 weapons, model strings like w_revolver_cattleman01)"]
+    },
+    {
+      "id": "azael-dev-weapons-json",
+      "title": "azael.dev redm weapons/redm.json export",
+      "url": "https://azael.dev/redm/weapons/redm.json",
+      "category": "assets",
+      "type": "community-dump",
+      "cited_in_datasets": ["weapons.json (WEAPON_* constant names + hashes)"]
+    },
+    {
+      "id": "oakandrocks-peds",
+      "title": "oakandrocks.com RedM ped hash list (decimal cross-ref)",
+      "url": "https://oakandrocks.com/redm/ped-hashes/",
+      "category": "assets",
+      "type": "community-reference",
+      "cited_in_datasets": ["peds.json (mp_male 138 variations, hash_dec values)", "horses.json"]
+    },
+    {
+      "id": "oakandrocks-horses",
+      "title": "oakandrocks.com RedM horse list + stats",
+      "url": "https://oakandrocks.com/redm/horses/",
+      "category": "assets",
+      "type": "community-reference",
+      "cited_in_datasets": ["horses.json (45 A_C_Horse_* breed/coat variants + 1-10 stats)"]
+    },
+    {
+      "id": "gtabase-horses",
+      "title": "GTABase RDR2 Horses database (prices + locations + coats)",
+      "url": "https://www.gtabase.com/red-dead-redemption-2/horses/",
+      "category": "assets",
+      "type": "gamesite-database",
+      "cited_in_datasets": ["horses.json (1899 USD prices, stable city X/Y/Z coords, Rose Grey Bay Arabian $550 etc.)"]
+    },
+    {
+      "id": "vandal-breeds-guide",
+      "title": "vandal.elespanol.com RDR2 horse breed guide (categories: Superior/War/Race/Race/Multi/Draft/Work)",
+      "url": "https://vandal.elespanol.com/guias/guia-red-dead-redemption-2/caballos/razas",
+      "category": "assets",
+      "type": "game-guide",
+      "cited_in_datasets": ["horses.json (horse category: Superior vs War vs Race vs Work vs Draft vs Multi)"]
+    },
+    {
+      "id": "rdr2mods-lml",
+      "title": "Lenny's Mod Loader RDR download page (LML)",
       "url": "https://www.rdr2mods.com/downloads/rdr2/tools/76-lennys-mod-loader-rdr/",
       "category": "tooling",
-      "type": "modding-tool"
+      "type": "modding-tool",
+      "cited_in_datasets": ["tools.json (LML entry)"]
+    },
+    {
+      "id": "openiv-site",
+      "title": "OpenIV - RPF archive browser + editor",
+      "url": "https://openiv.com/",
+      "category": "tooling",
+      "type": "modding-tool",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "coderanch-redm-inventory",
+      "title": "CodeRanch-RedM shared inventory/item slug reference",
+      "url": "https://github.com/CodeRanchDevelopment/coderanch-redm-public",
+      "category": "framework",
+      "type": "community-reference",
+      "cited_in_datasets": ["items.json (water,coffee,whiskey,beef_steak,cannedbeans shared slugs)"]
+    },
+    {
+      "id": "vorp-inventory-gh",
+      "title": "VORPCORE/vorp_inventory GitHub repo (shared item conventions)",
+      "url": "https://github.com/VORPCORE/vorp_inventory",
+      "category": "framework",
+      "type": "github-repo",
+      "cited_in_datasets": ["items.json (weight/stack_max/shared prefixes)", "frameworks.json"]
+    },
+    {
+      "id": "rsg-inventory-gh",
+      "title": "Rexshack-RedM/rsg-inventory GitHub repo",
+      "url": "https://github.com/Rexshack-RedM/rsg-inventory",
+      "category": "framework",
+      "type": "github-repo",
+      "cited_in_datasets": ["items.json (shared_item_slug_prefix rsg_)", "frameworks.json"]
+    },
+    {
+      "id": "redemrp-inventory-gh",
+      "title": "RedEM-RP/redemrp_inventory GitHub repo",
+      "url": "https://github.com/RedEM-RP/redemrp_inventory",
+      "category": "framework",
+      "type": "github-repo",
+      "cited_in_datasets": ["items.json (shared_item_slug_prefix item_)", "frameworks.json"]
+    },
+    {
+      "id": "poke-ser-redm-blips",
+      "title": "PokeSer/redm_blips (GitHub sprite list)",
+      "url": "https://github.com/PokeSer/redm_blips",
+      "category": "assets",
+      "type": "github-repo",
+      "cited_in_datasets": ["blips.json (sprite names + categories cross-reference)"]
+    },
+    {
+      "id": "heidisql-site",
+      "title": "HeidiSQL - MySQL/MariaDB GUI (common vorp/rsg admin tool)",
+      "url": "https://www.heidisql.com/",
+      "category": "tooling",
+      "type": "database-gui",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "sqlitebrowser-site",
+      "title": "DB Browser for SQLite (standalone/local dev)",
+      "url": "https://sqlitebrowser.org/",
+      "category": "tooling",
+      "type": "database-gui",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "vortex-site",
+      "title": "Vortex Mod Manager (RDR2/RedM mod deployment)",
+      "url": "https://www.nexusmods.com/about/vortex/",
+      "category": "tooling",
+      "type": "mod-manager",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "rdo-outfit-changer",
+      "title": "RDO Outfit Changer (ped component hash explorer)",
+      "url": "https://www.rdr2mods.com/downloads/rdr2/tools/1066-rdo-outfit-changer/",
+      "category": "tooling",
+      "type": "dev-utility",
+      "cited_in_datasets": ["tools.json", "hashes.json (collection-hashes notes)"]
+    },
+    {
+      "id": "hexeditorneo-site",
+      "title": "Hex Editor Neo (for raw hash byte inspection)",
+      "url": "https://www.hhdsoftware.com/free-hex-editor",
+      "category": "tooling",
+      "type": "hex-editor",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "codewalker-discord",
+      "title": "CodeWalker RDR3 build (YMAP/YTYD/YDR world viewer + editor)",
+      "url": "https://discord.gg/codewalker",
+      "category": "tooling",
+      "type": "world-editing",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "cfx-artifex-admin",
+      "title": "txAdmin (Cfx.re Artifex server web admin + live console)",
+      "url": "https://txadm.in/",
+      "category": "tooling",
+      "type": "server-admin",
+      "cited_in_datasets": ["tools.json"]
+    },
+    {
+      "id": "discord-txadmin",
+      "title": "FiveM/RedM txAdmin Discord (support)",
+      "url": "https://discord.gg/txadmin",
+      "category": "tooling",
+      "type": "community-discord",
+      "cited_in_datasets": []
     }
-  ]
+  ],
+  "cross_ref_matrix": {
+    "blips.json":     ["filmcrz-github-blips", "cfx-forum-blip-thread", "poke-ser-redm-blips"],
+    "weapons.json":   ["mooshe-tv-weapon-cs", "rdr2mods-wiki-weapons", "azael-dev-weapons-json", "alloc8or-data"],
+    "peds.json":      ["nowimps8-redm-info-pedhash", "scripthookrdr2dotnet-pedhash", "rdr2mods-wiki-peds", "oakandrocks-peds", "femga-discoveries"],
+    "horses.json":    ["oakandrocks-horses", "gtabase-horses", "vandal-breeds-guide"],
+    "items.json":     ["coderanch-redm-inventory", "vorp-inventory-gh", "rsg-inventory-gh", "redemrp-inventory-gh", "redm-ns-lib"],
+    "hashes.json":    ["alloc8or-data", "alloc8or-db", "nativewrappers-repo", "vorp-rdr3natives", "femga-discoveries"],
+    "prompts.json":   ["redm-ns-lib", "vorp-lib-api", "femga-discoveries", "mooshe-tv-weapon-cs", "rsg-site", "redem-org"],
+    "frameworks.json":["vorp-docs", "vorp-org", "rsg-site", "rexshack-org", "redem-org", "redm-ns-lib", "nativescripts-org", "alloc8or-db"],
+    "sources.json":   ["(all sources above)"],
+    "tools.json":     ["rdr2mods-lml", "openiv-site", "codewalker-discord", "heidisql-site", "sqlitebrowser-site", "vortex-site", "rdo-outfit-changer", "hexeditorneo-site", "cfx-artifex-admin"]
+  }
 }

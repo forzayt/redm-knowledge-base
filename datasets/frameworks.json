@@ -1,46 +1,297 @@
 {
   "generated_for": "redm-ai-kb",
   "last_updated": "2026-08-03",
+  "coverage": "comprehensive",
+  "source_refs": [
+    "https://github.com/VORPCORE",
+    "https://github.com/Rexshack-RedM",
+    "https://github.com/RedEM-RP",
+    "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+    "https://docs.vorp-core.com/",
+    "https://www.rsg-core.com/"
+  ],
   "frameworks": [
     {
       "name": "VORP Core",
       "slug": "vorp",
       "site": "https://docs.vorp-core.com/",
+      "github_org": "https://github.com/VORPCORE",
+      "github_repos": [
+        "https://github.com/VORPCORE/VORP-Core",
+        "https://github.com/VORPCORE/vorp_inventory",
+        "https://github.com/VORPCORE/vorp_character",
+        "https://github.com/VORPCORE/vorp_admin",
+        "https://github.com/VORPCORE/vorp_utils"
+      ],
+      "ensure_order_server_cfg": [
+        "ensure oxmysql",
+        "ensure vorp_core",
+        "ensure vorp_character",
+        "ensure vorp_inventory",
+        "ensure vorp_admin"
+      ],
+      "install_commands": {
+        "git_clone_core": "git clone https://github.com/VORPCORE/VORP-Core resources/[vorp]/vorp_core",
+        "import_sql": "Import vorp_core.sql + oxmysql schema into MySQL/MariaDB server",
+        "npm_build_if_applicable": "cd resources/[vorp]/vorp_character/ui && npm i && npm run build"
+      },
+      "sql_database_prefix": "vorp_",
+      "sql_major_tables": [
+        "vorp_characters (characterId, identifier, job, jobgrade, money, gold)",
+        "vorp_inventory (charidentifier, item, count, metadata)",
+        "vorp_users (identifier, whitelist, banned)",
+        "vorp_clothing (charidentifier, comps, drawtextures)",
+        "vorp_stables (charidentifier, horse_name, model, experience, bond_level)"
+      ],
+      "client_exports_common": [
+        "vorp_core:vorpPrompt() -- Register prompt helpers",
+        "vorp_core:addBlip({...}) -- Create map blip wrapper",
+        "vorp_core:TipLeft(msg, ms, color) -- Draw tip",
+        "vorp_core:Notify(title, msg, type, durationMs) -- Toast notification",
+        "vorp_core:closeInventory() / openInventory()",
+        "vorp_core:vorpCharacter() -- Character metadata getters"
+      ],
+      "server_exports_common": [
+        "vorp_core.AddUser(source) -- Insert new player row on first join",
+        "vorp_core.AddMoney(source, amount) / AddGold(source, amount)",
+        "vorp_core.SetJob(source, jobname, grade)",
+        "vorp_core.getUser(source) -- returns {identifier,job,grade,...}",
+        "vorp_core.RegisterUsableItem(item, cb) -- Hook inventory use",
+        "vorp_core.AddItem(source, item, count, metadata)",
+        "vorp_core.subItem(source, item, count, metadata)",
+        "vorp_core.GetInventory(source) -- List items with counts"
+      ],
+      "common_events": [
+        "vorp:playerLoaded (client/server, on char select done)",
+        "vorp:SelectedCharacter (server, spawn logic)",
+        "vorp_inventory:refreshInventory (client, UI redraw trigger)",
+        "vorp:initCharacter (client first-char spawn)",
+        "vorp_admin:PlayerBanned (server audit hook)"
+      ],
+      "character_creation_model": "vorp_character provides native-dressed character creator UI with sliders; wardrobe persists to vorp_clothing",
+      "inventory_type": "vorp_inventory: slot-based UI with metadata JSONB support; item images in html/img",
       "notes": [
-        "Open source RedM framework",
-        "Has a modular lib API",
-        "Supports framework-specific and shared helpers"
+        "Open source RedM framework with largest shared module ecosystem",
+        "Has a modular lib API + prompt/blip/notification wrappers",
+        "Supports framework-specific and shared helpers",
+        "Primary DB: MySQL/MariaDB via oxmysql (ghmattimysql legacy also works)",
+        "Discord: https://discord.gg/vorp"
       ]
     },
     {
       "name": "RSG Core",
       "slug": "rsg",
       "site": "https://www.rsg-core.com/",
+      "github_org": "https://github.com/Rexshack-RedM",
+      "github_repos": [
+        "https://github.com/Rexshack-RedM/rsg-core",
+        "https://github.com/Rexshack-RedM/rsg-inventory",
+        "https://github.com/Rexshack-RedM/rsg-housing",
+        "https://github.com/Rexshack-RedM/rsg-adminmenu",
+        "https://github.com/Rexshack-RedM/rsg-telegram"
+      ],
+      "ensure_order_server_cfg": [
+        "ensure oxmysql",
+        "ensure rsg-core",
+        "ensure rsg-inventory",
+        "ensure rsg-housing",
+        "ensure rsg-adminmenu"
+      ],
+      "install_commands": {
+        "git_clone_core": "git clone https://github.com/Rexshack-RedM/rsg-core resources/[rsg]/rsg-core",
+        "import_sql": "Import rsg.sql from repo root into oxmysql DB",
+        "copy_cfg_example": "Copy rsg-core/config.lua.example to config.lua; fill framework defaults"
+      },
+      "sql_database_prefix": "rsg_",
+      "sql_major_tables": [
+        "rsg_players (citizenid, license, money, job, gang, metadata)",
+        "rsg_items (name, label, weight, type, image)",
+        "rsg_player_vehicles / rsg_player_horses",
+        "rsg_outfits (citizenid, title, skin JSON)",
+        "rsg_houses (houseid, owned, citizenid)"
+      ],
+      "client_exports_common": [
+        "rsg-core:client:createPrompt({...}) -- prompt helper",
+        "rsg-core:client:notify(title, msg, type, ms)",
+        "rsg-core:client:drawText(text, x, y, scale, color)",
+        "rsg-inventory:client:openStash(stashId, owner)",
+        "rsg-core:client:CreatePed(...) -- spawn wrapper"
+      ],
+      "server_exports_common": [
+        "RSGCore.Functions.CreateCallback(name, cb) -- server<->client callbacks",
+        "RSGCore.Functions.AddMoney(identifier, account, amount, reason)",
+        "RSGCore.Functions.GetPlayer(src) -> PlayerData table",
+        "RSGCore.Functions.GetItemByName(itemName) -> item def from rsg_items",
+        "RSGCore.Functions.CreateUseableItem(item, cb)",
+        "RSGCore.Functions.Save() -- periodic DB flush"
+      ],
+      "common_events": [
+        "RSGCore:Client:PlayerLoaded",
+        "RSGCore:Server:PlayerLoaded",
+        "rsg-inventory:client:updateInventory",
+        "RSGCore:Server:OnPlayerUnload",
+        "rsg-housing:client:enteredHouse"
+      ],
+      "character_creation_model": "rsg-core ships with qb-clothing inspired creator; skin stored in metadata JSON column",
+      "inventory_type": "rsg-inventory: weight (not slot) system with ox_lib inspired UI; item images in web/build folder",
       "notes": [
-        "RedM RP framework",
-        "GitHub org has many related repositories",
-        "Useful for cross-framework abstraction docs"
+        "Modern RSG variant of popular FiveM-style QBCore patterns ported to RDR3/RedM",
+        "GitHub org has many related repositories: shops, jobs, gangs, housing, craft",
+        "Useful for cross-framework abstraction docs",
+        "Written mostly in Lua with React UIs for major menus",
+        "Discord: https://discord.gg/rsg"
       ]
     },
     {
       "name": "RedEM:RP",
       "slug": "redem",
       "site": "https://github.com/RedEM-RP",
+      "github_org": "https://github.com/RedEM-RP",
+      "github_repos": [
+        "https://github.com/RedEM-RP/redem_roleplay",
+        "https://github.com/RedEM-RP/redemrp_inventory",
+        "https://github.com/RedEM-RP/redemrp_menu_base",
+        "https://github.com/RedEM-RP/redemrp_identity",
+        "https://github.com/RedEM-RP/redemrp_notification"
+      ],
+      "ensure_order_server_cfg": [
+        "ensure mysql-async",
+        "ensure redem_roleplay",
+        "ensure redemrp_menu_base",
+        "ensure redemrp_identity",
+        "ensure redemrp_inventory"
+      ],
+      "install_commands": {
+        "git_clone_core": "git clone https://github.com/RedEM-RP/redem_roleplay resources/[redem]/redem_roleplay",
+        "import_sql": "Import .sql files from each /SQL subfolder in install order (base, identity, inventory)",
+        "copy_configs": "Copy each config.example.lua to config.lua per module"
+      },
+      "sql_database_prefix": "redemrp_",
+      "sql_major_tables": [
+        "redemrp_characters (char_id, identifier, firstname, lastname, job, jobgrade, money)",
+        "redemrp_inventory (id, charidentifier, item_id, count)",
+        "redemrp_items (item_id, label, weight)",
+        "redemrp_user_skins",
+        "redemrp_horses (charidentifier, horse_model, name, exp)"
+      ],
+      "client_exports_common": [
+        "redemrp_menu_base.CreateMenu({...}) -- Scaleform prompt menus w/ auto-prompts",
+        "redemrp_notification.showNotification(msg)",
+        "redemrp.GetCharacter() -> returns current charId/name/job",
+        "redemrp.SpawnPlane(x,y,z) / SetOutfit(compList)"
+      ],
+      "server_exports_common": [
+        "redemrp.GiveMoney(characterId, amount)",
+        "redemrp.SetJob(characterId, job, grade)",
+        "redemrp.registerUsableItem(itemName, cb)",
+        "redemrp.getItemByItemId(itemId) / getItemByName(name)",
+        "redemrp.addItem(characterId, item_id, count)",
+        "redemrp.delItem(characterId, item_id, count)"
+      ],
+      "common_events": [
+        "redemrp:playerLoaded",
+        "redemrp_inventory:refresh",
+        "redemrp_identity:characterCreated",
+        "redemrp:onDeath / redemrp:onRespawn"
+      ],
+      "character_creation_model": "redemrp_identity walks user through name/age selection; then character creator screen",
+      "inventory_type": "redemrp_inventory: simple list UI with counts; metadata support added in v2.2+",
       "notes": [
-        "Rebooted 2023 ecosystem",
+        "Rebooted 2023 ecosystem; original was RedEM (2019) -> today is RedEM:RP",
         "Public framework org and related modules",
-        "Important for compatibility docs"
+        "Important for compatibility docs if supporting legacy RedEM servers",
+        "DB adapter: mysql-async (oxmysql compatible wrapper exists)"
       ]
     },
     {
       "name": "Native Scripts ns-lib",
       "slug": "ns-lib",
       "site": "https://redm.nativescripts.com/docs/scripts/redm/ns-lib",
+      "github_org": "https://github.com/nativescripts",
+      "github_repos": [
+        "https://github.com/nativescripts/ns-lib"
+      ],
+      "ensure_order_server_cfg": [
+        "ensure ns-lib -- must be FIRST before ns_* or custom framework modules"
+      ],
+      "install_commands": {
+        "git_clone": "git clone https://github.com/nativescripts/ns-lib resources/[ns]/ns-lib",
+        "configure_sql_adapter": "In ns-lib/config.lua choose adapter = 'oxmysql' | 'mysql-async' | 'ghmattimysql'"
+      },
+      "sql_database_prefix": "ns_ (optional; most modules share tables with active fw)",
+      "sql_major_tables": [
+        "ns_items (if standalone inventory mode)",
+        "ns_accounts (money/bank/gold as standalone)"
+      ],
+      "client_exports_common": [
+        "RegisterPrompt(slug, {text, key, hold, enabled, visible, group}, entityOrCoords, onCompleteCb, onTick)",
+        "RegisterPromptGroup(entity, {prompts: [...]}) -- multi-prompt on one NPC/prop",
+        "Draw3DText(coords, text, {scale, color, outline})",
+        "NSBlip:Create({sprite, colour, label, coords, scale, shortRange})",
+        "NSNotification:Show(title, body, type, durationMs)",
+        "NSModal:Confirm({title, body, btnOk, btnCancel}) -> Promise<bool>"
+      ],
+      "server_exports_common": [
+        "SQL.Async.fetchAll(query, params) -> Promise<rows> (any adapter)",
+        "NSInventory.GetItems(source) / AddItem / RemoveItem / RegisterUsableItem",
+        "NSJobs.SetJob(source, job, grade)",
+        "NSFramework.Bridge() -> auto-detects vorp|rsg|redem and returns shim object",
+        "NS.Log(category, msg) (structured)"
+      ],
+      "common_events": [
+        "ns_lib:playerJoined",
+        "ns_lib:promptCompleted(slug, payload)",
+        "ns_inventory:changed(source, newItems)"
+      ],
+      "character_creation_model": "Delegates to whatever underlay framework is running (VORP/RSG/RedEM). Ships char creator in full NS suite.",
+      "inventory_type": "Can provide its own inventory or wrap VORP/RSG/RedEM inventories via same public interface",
+      "bridge_mode_note": "The ns-lib:Bridge() shim normalizes 90% of framework surface (jobs, items, money) so scripts can be cross-framework with zero changes.",
       "notes": [
-        "Cross-framework abstraction layer",
+        "Cross-framework abstraction layer; goal: write once runs on VORP + RSG + RedEM + standalone",
         "Supports multiple inventories and SQL adapters",
-        "Useful as a compatibility baseline"
+        "Useful as a compatibility baseline when authoring AI-created resources",
+        "RegisterPrompt is the #1 used helper in ns-lib"
+      ]
+    },
+    {
+      "name": "Standalone / Raw Natives (no framework)",
+      "slug": "standalone",
+      "site": "https://alloc8or.re/rdr3/nativedb/",
+      "github_org": null,
+      "github_repos": [],
+      "ensure_order_server_cfg": [
+        "(no order requirements; standalone resources depend on nothing except game)"
+      ],
+      "install_commands": {
+        "template": "Create fxmanifest.lua with: client_scripts, shared_scripts, server_scripts; ensure <name>"
+      },
+      "sql_database_prefix": null,
+      "sql_major_tables": [],
+      "client_exports_common": [
+        "You provide your own via exports() in fxmanifest.lua"
+      ],
+      "server_exports_common": [
+        "You provide your own via exports() in fxmanifest.lua"
+      ],
+      "common_events": [
+        "Cfx base: onResourceStart / onResourceStop / playerConnecting / playerDropped / playerJoining"
+      ],
+      "character_creation_model": "None; you must build char select from PED natives + menu NUI",
+      "inventory_type": "None; build from scratch using ITEMSETS natives + NUI",
+      "notes": [
+        "Useful for tiny utility resources: dev tools, blip replacers, weather/time controller",
+        "All 4 framework entries above ultimately call the same 7,600 RDR3 natives documented in hashes.json > native_namespaces"
       ]
     }
-  ]
+  ],
+  "interop_notes": {
+    "detecting_framework_at_runtime": [
+      "if GetResourceState('vorp_core') == 'started' then VORP end",
+      "if GetResourceState('rsg-core') == 'started' then RSG end",
+      "if GetResourceState('redem_roleplay') == 'started' then RedEM end",
+      "if GetResourceState('ns-lib') == 'started' then USE ns-lib.Bridge() for cross-fw shim"
+    ],
+    "fxmanifest_dependency_declaration": "dependencies { 'vorp_core' }  -- forces load order; swap for rsg-core/redem_roleplay/ns-lib",
+    "money_units": "All four frameworks standardize on: money = USD cash 1899, gold = gold dust/coins (1 gold ~20 USD circa 1899)"
+  }
 }
