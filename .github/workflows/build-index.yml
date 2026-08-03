@@ -1,44 +1,52 @@
-name: Build Directory Index
+- name: Generate HTML
+  run: |
+    tree \
+      -H "." \
+      --dirsfirst \
+      --charset utf-8 \
+      -T "Repository Index" \
+      -I ".git|.github|node_modules|index.html" \
+      -o index.html
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+    python3 << 'EOF'
+    from pathlib import Path
+    import re
 
-permissions:
-  contents: write
+    OWNER = "forzayt"
+    REPO = "redm-knowledge-base"
+    BRANCH = "main"
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+    RAW = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}/"
 
-    steps:
-      - uses: actions/checkout@v4
+    html = Path("index.html").read_text("utf-8")
 
-      - name: Install tree
-        run: sudo apt-get update && sudo apt-get install -y tree
+    def replace(match):
+        href = match.group(1)
 
-      - name: Generate HTML
-        run: |
-          tree \
-            -H "." \
-            -L 20 \
-            --dirsfirst \
-            --charset utf-8 \
-            -T "Repository Index" \
-            -I ".git|.github|node_modules|index.html" \
-            -o index.html
+        if href.startswith(("http://", "https://", "#", "?")):
+            return match.group(0)
 
-      - name: Commit
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+        href = href.lstrip("./")
 
-          git add index.html
+        # Keep folders inside GitHub Pages
+        if href.endswith("/"):
+            return f'href="{href}"'
 
-          if git diff --cached --quiet; then
-            echo "Nothing changed"
-          else
-            git commit -m "Update directory index"
-            git push
-          fi
+        # Everything else goes to raw.githubusercontent.com
+        return f'href="{RAW}{href}" target="_blank"'
+
+    html = re.sub(r'href="([^"]+)"', replace, html)
+
+    html = html.replace(
+        "</body>",
+        """
+<hr>
+<p>
+Generated automatically • Raw links for AI crawlers • GitHub Pages
+</p>
+</body>
+"""
+    )
+
+    Path("index.html").write_text(html, encoding="utf-8")
+    EOF
